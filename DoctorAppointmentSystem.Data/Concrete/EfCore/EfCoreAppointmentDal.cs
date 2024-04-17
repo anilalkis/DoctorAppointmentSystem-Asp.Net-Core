@@ -11,12 +11,23 @@ namespace DoctorAppointmentSystem.Data.Concrete.EfCore
 {
     public class EfCoreAppointmentDal : EfCoreGenericRepository<Appointment, Context>, IAppointmentDal
     {
+        public Appointment GetAppointmentById(int id)
+        {
+            using (var context = new Context())
+            {
+                return context.Appointments
+                    .Where(i => i.AppointmentId == id)
+                    .FirstOrDefault();
+            }
+        }
+
         public List<Appointment> GetAppointmentsWithDoctorId(int id)
         {
             using (var context = new Context())
             {
                 return context.Appointments
                     .Where(i => i.DoctorId == id)
+                    .Include(i => i.Patient)
                     .ToList();
             }
         }
@@ -32,6 +43,7 @@ namespace DoctorAppointmentSystem.Data.Concrete.EfCore
             }
 
         }
+
     }
 
 }

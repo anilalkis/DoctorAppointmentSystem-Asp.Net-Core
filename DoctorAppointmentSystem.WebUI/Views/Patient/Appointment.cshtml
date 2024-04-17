@@ -1,0 +1,65 @@
+﻿@model Doctor
+@{
+    List<DayOfWeek> scheduleDays = new List<DayOfWeek>();
+    foreach (var schedule in Model.Schedules)
+    {
+        scheduleDays.Add(schedule.DayOfWeek);
+    }
+    List<DateTime> appointmentDays = new List<DateTime>();
+    foreach (var appointment in Model.Appointments)
+    {
+        appointmentDays.Add(appointment.DateTime);
+    }
+
+
+    DateTime day = DateTime.Today.AddDays(1);
+    DateTime endDate = day.AddDays(14);
+
+    TimeSpan startTime = @Model.Schedules[0].StartTime;
+    TimeSpan endTime = @Model.Schedules[0].EndTime;
+    TimeSpan slotDuration = @Model.Schedules[0].Interval;
+
+    //Launch
+
+    TimeSpan LStart = new TimeSpan(12, 0, 0);
+    TimeSpan LEnd = new TimeSpan(13, 0, 0);
+
+    int counter = 1;
+
+    <div>@appointmentDays[0].AddHours(12.00).TimeOfDay</div>
+    for (DateTime date = day; date <= endDate; date = date.AddDays(1))
+    {
+        if(scheduleDays.Contains(date.DayOfWeek))
+        {
+            <div class="card mt-3 p-0">
+                <div class="card-header d-flex align-items-center justify-content-center" data-bs-toggle="collapse" href="#Collapse@(counter.ToString())" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+                    <span>
+                        @date.ToShortDateString() - @date.DayOfWeek.ToString()
+                    </span>    
+                    <span class="material-symbols-outlined">
+                        expand_more
+                    </span>
+                </div>
+                <div class="collapse multi-collapse p-2" id="Collapse@(counter.ToString())">
+                    @for (TimeSpan currentTime = startTime; currentTime <= endTime; currentTime = currentTime.Add(slotDuration))
+                    {
+                        if (!(currentTime >= LStart && currentTime <= LEnd) && !(appointmentDays.Contains(date.AddHours(currentTime.TotalHours))))
+                        {
+                            <button type="button" class="btn btn-primary m-1">@currentTime.ToString("hh\\:mm")</button>
+
+                        }
+                        else if (!(currentTime >= LStart && currentTime <= LEnd))
+                        {
+                            <button type="button" class="btn btn-outline-primary m-1" disabled>@currentTime.ToString("hh\\:mm")</button>
+
+                        }
+                    }
+                </div>
+            </div>
+            counter++;
+        }   
+    }
+}
+
+
+

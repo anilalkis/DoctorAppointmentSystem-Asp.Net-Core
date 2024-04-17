@@ -1,5 +1,8 @@
 using DoctorAppointmentSystem.Data.Abstract;
 using DoctorAppointmentSystem.Data.Concrete.EfCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +12,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped(typeof(IDoctorDal), typeof(EfCoreDoctorDal));
 builder.Services.AddScoped(typeof(IPatientDal), typeof(EfCorePatientDal));
 builder.Services.AddScoped(typeof(IAppointmentDal), typeof(EfCoreAppointmentDal));
+builder.Services.AddScoped(typeof(IScheduleDal), typeof(EfCoreScheduleDal));
+
 
 var app = builder.Build();
 
@@ -27,8 +32,20 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+
+//app.UseEndpoints(endpoints =>
+//{
+
+
+//    app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Patinet}/{action=Index}/{id?}");
+//});
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
 
 app.Run();

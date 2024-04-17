@@ -27,6 +27,7 @@ namespace DoctorAppointmentSystem.Data.Concrete.EfCore
             {
                 return context.Doctors
                     .Include(i => i.Schedules)
+                    .Where(i => i.Schedules.Any(s => s.IsWorkingDay == true))
                     .FirstOrDefault(i => i.DoctorId == id);
             }
         }

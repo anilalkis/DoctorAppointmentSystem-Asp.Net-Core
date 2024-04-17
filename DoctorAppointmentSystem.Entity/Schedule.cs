@@ -14,6 +14,9 @@ namespace DoctorAppointmentSystem.Entity
         public TimeSpan EndTime { get; set; }
         public TimeSpan Interval { get; set; } // Yarım saatlik aralık
         public int DoctorId { get; set; }
+
+        //public string WorkingHours { get; set; }
+        public bool IsWorkingDay { get; set; }
         public required Doctor Doctor { get; set; }
     }
 }

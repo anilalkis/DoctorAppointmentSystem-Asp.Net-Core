@@ -14,29 +14,23 @@
 </div>
 <div class="row menu p-3">
     <div class="list-group ps-5">
-        <a asp-controller="Patient" asp-action="Index" class="list-group-item list-group-item-action active align-items-center d-flex my-2">
+        <a asp-controller="Doctor" asp-action="Index" class="list-group-item list-group-item-action align-items-center d-flex my-2">
             <span class="material-symbols-outlined pe-2">
                 home
             </span>
             Home
         </a>
-        <a asp-controller="Patient" asp-action="DoctorsList" class="list-group-item list-group-item-action align-items-center d-flex my-2" aria-current="true">
+        <a asp-controller="Doctor" asp-action="AppointmentList" class="list-group-item list-group-item-action align-items-center d-flex my-2" aria-current="true">
             <span class="material-symbols-outlined pe-2">
                 health_and_safety
             </span>
-            Doctors
+            My Appointments
         </a>
         <a href="#" class="list-group-item list-group-item-action align-items-center d-flex my-2">
             <span class="material-symbols-outlined pe-2">
                 today
             </span>
-            Schedules
-        </a>
-        <a href="#" class="list-group-item list-group-item-action align-items-center d-flex my-2">
-            <span class="material-symbols-outlined pe-2">
-                alarm
-            </span>
-            Appointments
+            My Schedule
         </a>
         <a class="list-group-item list-group-item-action disabled align-items-center d-flex my-2" aria-disabled="true">A disabled link item</a>
     </div>

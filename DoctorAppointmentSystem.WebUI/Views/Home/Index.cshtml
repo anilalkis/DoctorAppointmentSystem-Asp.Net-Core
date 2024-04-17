@@ -1,54 +1,36 @@
-﻿@model PatientWithAppointmentViewModel
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Ana Sayfa</title>
+</head>
+<body>
 
-<div class="row my-1 mx-1">
-    <div class="d-flex justify-content-between align-items-center">
-        <h3>Home</h3>
-        <div class="d-flex align-items-center">
-            <div class="me-3">
-                <p class="mb-1">Today's Date</p>
-                <p style="font-weight: bold;font-size: 18px; margin: 0;">26/03/2024</p>
+    <main class="d-flex justify-content-center" style="height: 100vh;background-image: url(../../wwwroot/img/young-handsome-physician-medical-robe-with-stethoscope.jpg);background-size: cover;">
+        <div class="overlay"
+             style="height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);"></div>
+        <nav class="navbar w-100 fixed-top">
+            <div class="container-fluid">
+                <a style="font-weight: 600;font-size: 30px;color: white;" class="navbar-brand">Clinic</a>
+                <div class="d-flex">
+                    <a href="#" style="text-decoration: none;color:white;" class="m-2"><b>LOGIN</b></a>
+                    <a href="#" style="text-decoration: none;color: white;" class="m-2"><b>REGISTER</b></a>
+                </div>
             </div>
-            <div class="p-2" style="background-color: #e1e1e1;border-radius: 5px;">
-                <span class="material-symbols-outlined" style="font-size: 35px;">
-                    calendar_month
-                </span>
-            </div>
+        </nav>
+        <div class="align-self-center w-50 text-center" style="z-index: 1;">
+            <h1 style="color: white;"><b>WELCOME!</b></h1>
+            <p style="color: rgba(255, 255, 255, 0.901);"><em>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti itaque repellendus cum molestias atque quibusdam ducimus provident, incidunt, sunt id quasi qui sapiente inventore eos voluptatem placeat voluptatibus quisquam error!</em></p>
+            <Button class="btn btn-primary">Make Appointment</Button>
         </div>
-    </div>
-</div>
-<div class="row mx-3">
-    <div class="head-section p-5 mb-3 rounded">
-        <h5 class="mb-3">Welcome!</h5>
-        <h3 class="mb-3">@Model.Patient.FullName</h3>
-        <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere mollitia fuga iste praesentium alias optio, sapiente minus magni quos doloremque laboriosam voluptatem molestiae dicta commodi aspernatur quo dolorum saepe at!</p>
-        <form class="form-inline home-searchbar d-flex w-50">
-            <input class="form-control mr-sm-2 me-2" type="search" placeholder="Search Doctor" aria-label="Search">
-            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
-    <div class="homepage-bookings">
-        <h3>Your Upcoming Bookings</h3>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Doctor</th>
-                    <th scope="col">Scheduled Date & Time</th>
-                    <th scope="col">Approval Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var appointment in Model.Appointments)
-                {
-                    
-                <tr>
-                    <th scope="row">@appointment.AppointmentId</th>
-                    <td>@appointment.Doctor.FullName</td>
-                    <td>@appointment.DateTime.ToString()</td>
-                    <td>@(appointment.IsApproved ? "Approved" : "Not Approved")</td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
+    </main>
+</body>
+</html>

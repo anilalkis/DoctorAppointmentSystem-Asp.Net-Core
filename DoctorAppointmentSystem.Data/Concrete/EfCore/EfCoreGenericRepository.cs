@@ -45,7 +45,7 @@ namespace DoctorAppointmentSystem.Data.Concrete.EfCore
         {
             using (var context = new TContext())
             {
-               return context.Set<T>().Find(id);
+                return context.Set<T>().Find(id);
             }
         }
 

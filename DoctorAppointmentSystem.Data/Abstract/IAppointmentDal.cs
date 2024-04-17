@@ -11,6 +11,7 @@ namespace DoctorAppointmentSystem.Data.Abstract
     {
         List<Appointment> GetAppointmentsWithDoctorId(int id);
         List<Appointment> GetAppointmentsWithPatientId(int id);
+        Appointment GetAppointmentById(int id); 
 
 
     }

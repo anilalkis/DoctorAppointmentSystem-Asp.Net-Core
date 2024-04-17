@@ -1,0 +1,54 @@
+﻿@model PatientWithAppointmentViewModel
+
+<div class="row my-1 mx-1">
+    <div class="d-flex justify-content-between align-items-center">
+        <h3>Home</h3>
+        <div class="d-flex align-items-center">
+            <div class="me-3">
+                <p class="mb-1">Today's Date</p>
+                <p style="font-weight: bold;font-size: 18px; margin: 0;">@DateTime.Now.ToShortDateString()</p>
+            </div>
+            <div class="p-2" style="background-color: #e1e1e1;border-radius: 5px;">
+                <span class="material-symbols-outlined" style="font-size: 35px;">
+                    calendar_month
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mx-3">
+    <div class="head-section p-5 mb-3 rounded">
+        <h5 class="mb-3">Welcome!</h5>
+        <h3 class="mb-3">@Model.Patient.FullName</h3>
+        <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere mollitia fuga iste praesentium alias optio, sapiente minus magni quos doloremque laboriosam voluptatem molestiae dicta commodi aspernatur quo dolorum saepe at!</p>
+        <form class="form-inline home-searchbar d-flex w-50">
+            <input class="form-control mr-sm-2 me-2" type="search" placeholder="Search Doctor" aria-label="Search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    <div class="homepage-bookings">
+        <h3>Your Upcoming Bookings</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Doctor</th>
+                    <th scope="col">Scheduled Date & Time</th>
+                    <th scope="col">Approval Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var appointment in Model.Appointments)
+                {
+                    
+                <tr>
+                    <th scope="row">@appointment.AppointmentId</th>
+                    <td>@appointment.Doctor.FullName</td>
+                    <td>@appointment.DateTime.ToString()</td>
+                    <td>@(appointment.IsApproved ? "Approved" : "Not Approved")</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

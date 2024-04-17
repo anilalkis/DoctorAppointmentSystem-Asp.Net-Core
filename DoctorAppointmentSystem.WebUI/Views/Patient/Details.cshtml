@@ -1,0 +1,45 @@
+﻿@model Doctor
+
+<div class="my-1 mx-1 mb-5">
+    <div class="d-flex justify-content-between align-items-center">
+        <h3>Detail</h3>
+        <div class="d-flex align-items-center">
+            <div class="me-3">
+                <p class="mb-1">Today's Date</p>
+                <p style="font-weight: bold;font-size: 18px; margin: 0;">26/03/2024</p>
+            </div>
+            <div class="p-2" style="background-color: #e1e1e1;border-radius: 5px;">
+                <span class="material-symbols-outlined" style="font-size: 35px;">
+                    calendar_month
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex mx-1 justify-content-center">
+    <div class="card mb-3" style="max-width: 100%;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <!-- <img src="..." class="img-fluid rounded-start" alt="..."> -->
+                <span class="material-symbols-outlined" style="font-size: 150px;">
+                    person
+                </span>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body border-start">
+                    <h5 class="card-title">@Model.FullName</h5>
+                    <p class="card-text">@Model.Specialization</p>
+                    <p class="card-text">@Model.Bio</p>
+                    <p class="card-text"><ins>Working Days:</ins></p>
+                    @foreach(var schedule in Model.Schedules)
+                    {
+                        <p class="card-text"><em>@schedule.DayOfWeek.ToString()</em></p>
+                        <p class="card-text"><em>@schedule.StartTime.ToString() - @schedule.EndTime.ToString()</em></p>
+                    }
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

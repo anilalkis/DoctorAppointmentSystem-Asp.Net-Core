@@ -9,6 +9,6 @@ namespace DoctorAppointmentSystem.Data.Abstract
 {
     public interface IScheduleDal : IRepository<Schedule>
     {
-        
+        List<Schedule> GetSchedulesByDoctorId(int id);
     }
 }
