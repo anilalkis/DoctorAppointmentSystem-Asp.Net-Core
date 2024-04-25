@@ -22,7 +22,10 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            Doctor doctor = new Doctor();
+            doctor = _doctorDal.GetById(1);
+            doctor.Appointments = _appointmentDal.GetAppointmentsWithDoctorId(1);
+            return View(doctor);
         }
 
         public IActionResult AppointmentList() 
@@ -54,11 +57,13 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
             if(appointment.IsApproved == false)
             {
                 appointment.IsApproved = true;
+                TempData["ConfirmMessage"] = "appointment confirmed.";
 
             }
             else
             {
                 appointment.IsApproved = false;
+                TempData["CancelMessage"] = "appointment has been cancelled.";
             } 
 
 

@@ -1,37 +1,40 @@
-﻿<div class="row user-section p-4 border-bottom">
-    <div class="row">
-        <div class="col-2 me-3">
-            <span class="material-symbols-outlined" style="font-size: 45px;">
-                account_circle
-            </span>
-        </div>
-        <div class="col">
-            <h6>User</h6>
-            <p>asd@gmail.com</p>
-        </div>
-    </div>
-    <button class="btn btn-primary btn-sm">Log Out</button>
-</div>
-<div class="row menu p-3">
-    <div class="list-group ps-5">
-        <a asp-controller="Doctor" asp-action="Index" class="list-group-item list-group-item-action align-items-center d-flex my-2">
-            <span class="material-symbols-outlined pe-2">
-                home
-            </span>
-            Home
-        </a>
-        <a asp-controller="Doctor" asp-action="AppointmentList" class="list-group-item list-group-item-action align-items-center d-flex my-2" aria-current="true">
-            <span class="material-symbols-outlined pe-2">
-                health_and_safety
-            </span>
-            My Appointments
-        </a>
-        <a href="#" class="list-group-item list-group-item-action align-items-center d-flex my-2">
-            <span class="material-symbols-outlined pe-2">
-                today
-            </span>
-            My Schedule
-        </a>
-        <a class="list-group-item list-group-item-action disabled align-items-center d-flex my-2" aria-disabled="true">A disabled link item</a>
-    </div>
-</div>
+﻿<nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+    <ul id="sidebarnav">
+        <li class="nav-small-cap">
+            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <span class="hide-menu">Pages</span>
+        </li>
+        <li class="sidebar-item">
+            <a asp-controller="Doctor" asp-action="Index" class="sidebar-link" aria-expanded="false">
+                <span>
+                    <i class="ti ti-home"></i>
+                </span>
+                <span class="hide-menu">Home</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a asp-controller="Doctor" asp-action="AppointmentList" class="sidebar-link" aria-expanded="false">
+                <span>
+                    <i class="ti ti-checkup-list"></i>
+                </span>
+                <span class="hide-menu">My Appointments</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a asp-controller="Doctor" asp-action="Schedule" class="sidebar-link" aria-expanded="false">
+                <span>
+                    <i class="ti ti-calendar-time"></i>
+                </span>
+                <span class="hide-menu">My Schedule</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a class="sidebar-link" href="./sample-page.html" aria-expanded="false">
+                <span>
+                    <i class="ti ti-settings-2"></i>
+                </span>
+                <span class="hide-menu">Settings</span>
+            </a>
+        </li>
+    </ul>
+</nav>

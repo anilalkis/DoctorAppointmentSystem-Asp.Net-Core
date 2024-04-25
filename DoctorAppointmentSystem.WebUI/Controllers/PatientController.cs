@@ -54,11 +54,19 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         public IActionResult Appointment(int id)
         {
             Doctor doctor = new Doctor();
-            doctor = _doctorDal.GetById(1);
-            doctor.Appointments = _appointmentDal.GetAppointmentsWithDoctorId(1);
-            doctor.Schedules = _scheduleDal.GetSchedulesByDoctorId(1); 
+            doctor = _doctorDal.GetById(id);
+            doctor.Appointments = _appointmentDal.GetAppointmentsWithDoctorId(id);
+            doctor.Schedules = _scheduleDal.GetSchedulesByDoctorId(id); 
 
             return View(doctor);
+        }
+
+        public IActionResult MyAppointments(int id)
+        {
+            List<Appointment> appointments = new List<Appointment>();
+            appointments = _appointmentDal.GetAppointmentsWithPatientId(1); 
+
+            return View(appointments);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

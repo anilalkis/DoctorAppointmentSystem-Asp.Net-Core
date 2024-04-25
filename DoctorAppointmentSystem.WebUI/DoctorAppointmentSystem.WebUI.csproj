@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DoctorAppointmentSystem.Data\DoctorAppointmentSystem.Data.csproj" />
     <ProjectReference Include="..\DoctorAppointmentSystem.Entity\DoctorAppointmentSystem.Entity.csproj" />
   </ItemGroup>

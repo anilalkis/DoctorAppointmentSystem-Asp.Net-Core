@@ -1,0 +1,40 @@
+﻿<nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+    <ul id="sidebarnav">
+        <li class="nav-small-cap">
+            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <span class="hide-menu">Pages</span>
+        </li>
+        <li class="sidebar-item">
+            <a asp-controller="Patient" asp-action="Index" class="sidebar-link" aria-expanded="false">
+                <span>
+                    <i class="ti ti-home"></i>
+                </span>
+                <span class="hide-menu">Home</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a asp-controller="Patient" asp-action="DoctorsList" class="sidebar-link" aria-expanded="false">
+                <span>
+                    <i class="ti ti-user-search"></i>
+                </span>
+                <span class="hide-menu">Doctors</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a asp-controller="Patient" asp-action="MyAppointments" class="sidebar-link" aria-expanded="false">
+                <span>
+                    <i class="ti ti-list-details"></i>
+                </span>
+                <span class="hide-menu">My Appointments</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a class="sidebar-link" href="./sample-page.html" aria-expanded="false">
+                <span>
+                    <i class="ti ti-settings-2"></i>
+                </span>
+                <span class="hide-menu">Settings</span>
+            </a>
+        </li>
+    </ul>
+</nav>

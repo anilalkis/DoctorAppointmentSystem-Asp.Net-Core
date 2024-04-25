@@ -8,5 +8,16 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         {
             return View();
         }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
     }
+
 }

@@ -1,18 +1,30 @@
-﻿main {
-    height: 100vh;
-}
-
-.full-menu {
-    border-right: 2px solid #e1e1e1;
-}
-
-.menu .list-group .list-group-item {
-    border: none;
-}
-
-    .menu .list-group .list-group-item .active::after {
+﻿@-webkit-keyframes slide-bottom {
+    0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
     }
 
-.head-section {
-    background-color: rgb(220, 240, 246);
+    100% {
+        -webkit-transform: translateY(100px);
+        transform: translateY(100px);
+    }
 }
+
+@keyframes slide-bottom {
+    0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+
+    100% {
+        -webkit-transform: translateY(100px);
+        transform: translateY(100px);
+    }
+}
+
+.slide-bottom {
+    -webkit-animation: slide-bottom 1s both;
+    animation: slide-bottom 1s both;
+}
+
+

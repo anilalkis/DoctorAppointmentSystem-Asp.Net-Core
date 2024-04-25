@@ -1,76 +1,74 @@
 ﻿@model List<Appointment>
+@{
+    Layout = "_DoctorLayout";
+}
 
-<div class="row my-1 mx-1">
-    <div class="d-flex justify-content-between align-items-center">
-        <h3>Upcoming Appointments</h3>
-        <div class="d-flex align-items-center">
-            <div class="me-3">
-                <p class="mb-1">Today's Date</p>
-                <p style="font-weight: bold;font-size: 18px; margin: 0;">@DateTime.Now.ToShortDateString()</p>
-            </div>
-            <div class="p-2" style="background-color: #e1e1e1;border-radius: 5px;">
-                <span class="material-symbols-outlined" style="font-size: 35px;">
-                    calendar_month
-                </span>
-            </div>
+@* <div id="alertMessage" class="alert alert-warning alert-dismissible fade" role="alert">
+    dawdjklşawdlpjwıdklşawda
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+ *@
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">Upcoming Appointments</h5>
+        <div class="homepage-bookings">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Patient</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Scheduled Date & Time</th>
+                        <th scope="col">Approval Status</th>
+                        <th scope="col">Update</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var appointment in Model)
+                    {
+                        if (appointment.DateTime < DateTime.Now)
+                        {
+                            <tr>
+                            <th scope="row">@appointment.AppointmentId</th>
+                            <td>@appointment.Patient.FullName</td>
+                            <td>@appointment.Patient.Phone</td>
+                            <td>@appointment.Patient.Age</td>
+                            <td>@appointment.DateTime.ToLongDateString()-@appointment.DateTime.ToShortTimeString()</td>
+                            @if (appointment.IsApproved)
+                            {
+                                <td class="text-success"> Approved</td>
+                            }
+                            else
+                            {
+                                <td class="text-danger"> Not Approved</td>
+                            }
+                            @if (appointment.IsApproved)
+                            {
+                                <td>
+                                    <form action="/Doctor/UpdateStatus" method="post" style="display:inline;">
+                                        <input type="hidden" name="AppointmentId" value="@appointment.AppointmentId" />
+                                        <button type="submit" class="btn btn-danger btn-sm">Cancel Appointment</button>
+                                    </form>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <form action="/Doctor/UpdateStatus" method="post" style="display:inline;">
+                                        <input type="hidden" name="AppointmentId" value="@appointment.AppointmentId" />
+                                        <button type="submit" class="btn btn-success btn-sm">Confirm Appointment</button>
+                                    </form>
+                                </td>
+                            }
+
+                        </tr>
+                        }
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-<div class="row mx-3">
-    <hr />
-    <div class="homepage-bookings">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Patient</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Scheduled Date & Time</th>
-                    <th scope="col">Approval Status</th>
-                    <th scope="col">Update</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var appointment in Model)
-                {
 
-                    <tr>
-                        <th scope="row">@appointment.AppointmentId</th>
-                        <td>@appointment.Patient.FullName</td>
-                        <td>@appointment.Patient.Phone</td>
-                        <td>@appointment.Patient.Age</td>
-                        <td>@appointment.DateTime.ToString()</td>
-                        @if(appointment.IsApproved)
-                        {
-                            <td class="text-success"> Approved</td>
-                        }
-                        else
-                        {
-                            <td class="text-danger"> Not Approved</td>
-                        }
-                        @if (appointment.IsApproved)
-                        {
-                            <td>
-                                <form action="/Doctor/UpdateStatus" method="post" style="display:inline;">
-                                    <input type="hidden" name="AppointmentId" value="@appointment.AppointmentId" />
-                                    <button type="submit" class="btn btn-danger btn-sm">Cancel Appointment</button>
-                                </form>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                <form action="/Doctor/UpdateStatus" method="post" style="display:inline;">
-                                    <input type="hidden" name="AppointmentId" value="@appointment.AppointmentId" />
-                                    <button type="submit" class="btn btn-success btn-sm">Confirm Appointment</button>
-                                </form>
-                            </td>
-                        }
-                        
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>

@@ -1,0 +1,23 @@
+﻿@model List<Appointment>
+
+@{
+    Layout = "_PatientLayout";
+}
+
+
+
+@foreach(var appointment in @Model)
+{
+    if (appointment.DateTime < DateTime.Now)
+    {
+        <div class="card alert alert-secondary">
+            <div class="card-body">
+                <p class="mb-0">Booking Date: ###</p>
+                <h4 class="card-title fw-semibold my-4">@appointment.Doctor.FullName</h4>
+                <p class="mb-0"><small>Sheduled Date: @appointment.DateTime.ToShortDateString()</small></p>
+                <p class="mb-0"><small>Sheduled Time:</small> <b>@appointment.DateTime.ToShortTimeString()</b></p>
+                <button class="btn btn-danger w-100 my-2">Cancel Booking</button>
+            </div>
+        </div>
+    }
+}

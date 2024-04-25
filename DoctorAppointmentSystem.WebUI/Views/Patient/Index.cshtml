@@ -1,54 +1,110 @@
 ﻿@model PatientWithAppointmentViewModel
 
-<div class="row my-1 mx-1">
-    <div class="d-flex justify-content-between align-items-center">
-        <h3>Home</h3>
-        <div class="d-flex align-items-center">
-            <div class="me-3">
-                <p class="mb-1">Today's Date</p>
-                <p style="font-weight: bold;font-size: 18px; margin: 0;">@DateTime.Now.ToShortDateString()</p>
-            </div>
-            <div class="p-2" style="background-color: #e1e1e1;border-radius: 5px;">
-                <span class="material-symbols-outlined" style="font-size: 35px;">
-                    calendar_month
-                </span>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row mx-3">
-    <div class="head-section p-5 mb-3 rounded">
+<div style="background-color:var(--bs-info-bg-subtle)" class="card">
+    <div class="card-body">
         <h5 class="mb-3">Welcome!</h5>
         <h3 class="mb-3">@Model.Patient.FullName</h3>
         <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere mollitia fuga iste praesentium alias optio, sapiente minus magni quos doloremque laboriosam voluptatem molestiae dicta commodi aspernatur quo dolorum saepe at!</p>
         <form class="form-inline home-searchbar d-flex w-50">
-            <input class="form-control mr-sm-2 me-2" type="search" placeholder="Search Doctor" aria-label="Search">
+            <input style="background-color: white;" class="form-control mr-sm-2 me-2" type="search" placeholder="Search Doctor" aria-label="Search">
             <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
-    <div class="homepage-bookings">
-        <h3>Your Upcoming Bookings</h3>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Doctor</th>
-                    <th scope="col">Scheduled Date & Time</th>
-                    <th scope="col">Approval Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var appointment in Model.Appointments)
-                {
-                    
-                <tr>
-                    <th scope="row">@appointment.AppointmentId</th>
-                    <td>@appointment.Doctor.FullName</td>
-                    <td>@appointment.DateTime.ToString()</td>
-                    <td>@(appointment.IsApproved ? "Approved" : "Not Approved")</td>
-                </tr>
-                }
-            </tbody>
-        </table>
+</div>
+
+<div class="row">
+    <div class="col-lg-4 d-flex align-items-stretch">
+        <div class="card w-100">
+            <div class="card-body p-4">
+                <div class="mb-4">
+                    <h5 class="card-title fw-semibold">Past Bookings</h5>
+                </div>
+                <ul class="timeline-widget mb-0 position-relative mb-n5">
+                    @foreach (var appointment in Model.Appointments)
+                    {
+                        if(appointment.DateTime < DateTime.Now)
+                        {
+                            <li class="timeline-item d-flex position-relative overflow-hidden">
+                                <div class="timeline-time text-dark flex-shrink-0 text-end ">
+                                    <span style="display:block" class="fw-semibold">
+                                        @appointment.DateTime.ToShortDateString()
+                                    </span>
+                                    <span>
+                                        @appointment.DateTime.ToShortTimeString()
+                                    </span>
+                                </div>
+
+                                <div class="timeline-badge-wrap d-flex flex-column align-items-center">
+                                    <span class="timeline-badge border-2 border border-primary flex-shrink-0 my-8"></span>
+                                    <span class="timeline-badge-border d-block flex-shrink-0"></span>
+                                </div>
+                                <div class="timeline-desc fs-3 text-dark mt-n1 fw-semibold">@appointment.Doctor.FullName</div>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 d-flex align-items-stretch">
+        <div class="card w-100">
+            <div class="card-body p-4">
+                <h5 class="card-title fw-semibold mb-4">Your Upcoming Bookings</h5>
+                <div class="table-responsive">
+                    <table class="table text-nowrap mb-0 align-middle table-hover table-striped">
+                        <thead class="text-dark fs-4">
+                            <tr>
+                                <th class="border-bottom-0">
+                                    <h6 class="fw-semibold mb-0">Id</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                    <h6 class="fw-semibold mb-0">Doctor</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                    <h6 class="fw-semibold mb-0">Scheduled Date & Time</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                    <h6 class="fw-semibold mb-0">Approval Status</h6>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var appointment in Model.Appointments)
+                            {
+                                if(appointment.DateTime > DateTime.Now)
+                                {
+                                    <tr>
+                                    <td class="border-bottom-0"><h6 class="fw-semibold mb-0">@appointment.AppointmentId</h6></td>
+                                    <td class="border-bottom-0">
+                                        <h6 class="fw-semibold mb-1">@appointment.Doctor.FullName</h6>
+                                    </td>
+                                    <td class="border-bottom-0">
+                                        <p class="mb-0 fw-normal">@appointment.DateTime.ToLongDateString()</p>
+                                    </td>
+                                    <td class="border-bottom-0">
+                                        @if (appointment.IsApproved)
+                                        {
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="badge bg-success rounded-3 fw-semibold">Approved</span>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="badge bg-danger rounded-3 fw-semibold">Not Approved</span>
+                                            </div>
+                                        }
+
+                                    </td>
+                                </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
