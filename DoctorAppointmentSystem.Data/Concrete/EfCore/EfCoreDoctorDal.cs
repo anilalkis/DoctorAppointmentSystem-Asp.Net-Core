@@ -11,6 +11,14 @@ namespace DoctorAppointmentSystem.Data.Concrete.EfCore
 {
     public class EfCoreDoctorDal : EfCoreGenericRepository<Doctor, Context>, IDoctorDal
     {
+        public Doctor GetByUserName(string UserName)
+        {
+            using (var context = new Context())
+            {
+                return context.Doctors.FirstOrDefault(i => i.FullName == UserName);
+            }
+        }
+
         public Doctor GetDoctorWithAppointment(int id)
         {
             using (var context = new Context())

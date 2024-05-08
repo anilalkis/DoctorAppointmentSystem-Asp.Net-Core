@@ -1,4 +1,4 @@
-﻿@model List<Appointment>
+﻿@model Patient
 
 @{
     Layout = "_PatientLayout";
@@ -6,17 +6,21 @@
 
 
 
-@foreach(var appointment in @Model)
+@foreach(var appointment in @Model.Appointments)
 {
-    if (appointment.DateTime < DateTime.Now)
+    if (appointment.DateTime > DateTime.Now)
     {
         <div class="card alert alert-secondary">
+            <div class="card-header text-center fw-bold">@appointment.DateTime.ToShortDateString() - @appointment.DateTime.DayOfWeek.ToString()</div>
             <div class="card-body">
                 <p class="mb-0">Booking Date: ###</p>
                 <h4 class="card-title fw-semibold my-4">@appointment.Doctor.FullName</h4>
                 <p class="mb-0"><small>Sheduled Date: @appointment.DateTime.ToShortDateString()</small></p>
                 <p class="mb-0"><small>Sheduled Time:</small> <b>@appointment.DateTime.ToShortTimeString()</b></p>
-                <button class="btn btn-danger w-100 my-2">Cancel Booking</button>
+                <form asp-controller="Patient" asp-action="MyAppointments" method="post">
+                    <input type="hidden" name="appointmentId" value="@appointment.AppointmentId" />
+                    <button type="submit" class="btn btn-danger w-100 my-2">Cancel Booking</button>
+                </form>
             </div>
         </div>
     }

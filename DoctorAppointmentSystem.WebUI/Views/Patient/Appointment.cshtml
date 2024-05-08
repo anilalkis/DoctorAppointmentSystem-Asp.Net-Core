@@ -1,12 +1,12 @@
-﻿@model Doctor
+﻿@model PatientAppointmentViewModel
 @{
     List<DayOfWeek> scheduleDays = new List<DayOfWeek>();
-    foreach (var schedule in Model.Schedules)
+    foreach (var schedule in Model.Doctor.Schedules)
     {
         scheduleDays.Add(schedule.DayOfWeek);
     }
     List<DateTime> appointmentDays = new List<DateTime>();
-    foreach (var appointment in Model.Appointments)
+    foreach (var appointment in Model.Doctor.Appointments)
     {
         appointmentDays.Add(appointment.DateTime);
     }
@@ -15,9 +15,9 @@
     DateTime day = DateTime.Today.AddDays(1);
     DateTime endDate = day.AddDays(14);
 
-    TimeSpan startTime = @Model.Schedules[0].StartTime;
-    TimeSpan endTime = @Model.Schedules[0].EndTime;
-    TimeSpan slotDuration = @Model.Schedules[0].Interval;
+    TimeSpan startTime = @Model.Doctor.Schedules[0].StartTime;
+    TimeSpan endTime = @Model.Doctor.Schedules[0].EndTime;
+    TimeSpan slotDuration = @Model.Doctor.Schedules[0].Interval;
 
     //Launch
 
@@ -42,7 +42,7 @@
                     {
                         if (!(currentTime >= LStart && currentTime <= LEnd) && !(appointmentDays.Contains(date.AddHours(currentTime.TotalHours))))
                         {
-                            <button type="button" class="btn btn-primary m-1">@currentTime.ToString("hh\\:mm")</button>
+                            <button value="@date.ToShortDateString()" onclick="setdate(this)" type="button" class="set btn btn-primary m-1" data-toggle="modal" data-target="#exampleModalCenter">@currentTime.ToString("hh\\:mm")</button>
 
                         }
                         else if (!(currentTime >= LStart && currentTime <= LEnd))
@@ -58,5 +58,41 @@
     }
 }
 
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+    Launch demo modal
+</button>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Do you want to create the appointment?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <form method="post" asp-controller="Patient" asp-action="Appointment">
+            <div class="modal-body">
+                    <input type="hidden" class="form-control" placeholder="Patient Name" name="patientId" value="@Model.Patient.PatientId">
+                    <input type="hidden" class="form-control" placeholder="Patient Name" name="doctorId" value="@Model.Doctor.DoctorId">
+                    <input id="date" type="hidden" class="form-control" placeholder="Patient Name" name="date" value="">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Make An Appointment</button>
+            </div>
+            <div class="modal-footer">
+                
+            </div>
+                </form>
+        </div>
+    </div>
+</div>
 
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function setdate(button) {
+        document.getElementById("date").value = button.value+ " " + button.innerHTML;
+    }
+</script>

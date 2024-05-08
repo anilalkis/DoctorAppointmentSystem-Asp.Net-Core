@@ -4,9 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using DoctorAppointmentSystem.Data.Abstract;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DoctorAppointmentSystem.WebUI.Controllers
 {
+    [Authorize(Roles ="Patient")]
     public class PatientController : Controller
     {
         private readonly ILogger<PatientController> _logger;
@@ -14,23 +17,24 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         private IAppointmentDal _appointmentDal;
         private IDoctorDal _doctorDal;
         private IScheduleDal _scheduleDal;
+        private readonly UserManager<AppUser> _userManager;
 
-        public PatientController(ILogger<PatientController> logger, IPatientDal patientDal, IAppointmentDal appointmentDal, IDoctorDal doctorDal, IScheduleDal scheduleDal)
+        public PatientController(ILogger<PatientController> logger, IPatientDal patientDal, IAppointmentDal appointmentDal, IDoctorDal doctorDal, IScheduleDal scheduleDal, UserManager<AppUser> userManager)
         {
             _logger = logger;
             _patientDal = patientDal;
             _appointmentDal = appointmentDal;
             _doctorDal = doctorDal;
             _scheduleDal = scheduleDal;
-
+            _userManager = userManager; 
         }
 
         public IActionResult Index()
         {
-
-            PatientWithAppointmentViewModel patient = new PatientWithAppointmentViewModel();
-            patient.Patient = _patientDal.GetById(1);
-            patient.Appointments = _appointmentDal.GetAppointmentsWithPatientId(1);
+            
+            Patient patient = new Patient();
+            patient = _patientDal.GetByUserName(_userManager.GetUserName(User));
+            patient.Appointments = _appointmentDal.GetAppointmentsWithPatientId(patient.PatientId);
 
             return View(patient);
         }
@@ -53,20 +57,51 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
 
         public IActionResult Appointment(int id)
         {
-            Doctor doctor = new Doctor();
-            doctor = _doctorDal.GetById(id);
-            doctor.Appointments = _appointmentDal.GetAppointmentsWithDoctorId(id);
-            doctor.Schedules = _scheduleDal.GetSchedulesByDoctorId(id); 
+            PatientAppointmentViewModel model = new PatientAppointmentViewModel();
+            model.Patient = _patientDal.GetByUserName(_userManager.GetUserName(User));
+            model.Doctor = _doctorDal.GetById(id);
+            model.Doctor.Appointments = _appointmentDal.GetAppointmentsWithDoctorId(id);
+            model.Doctor.Schedules = _scheduleDal.GetSchedulesByDoctorId(id);
+           
+            return View(model);
+        }
+        
+        [HttpPost]
+        public IActionResult Appointment(int patientId, int doctorID, string date)
+        {
+            //Console.WriteLine(patientId);
+            //Console.WriteLine(doctorID);
+            //Console.WriteLine(date);
+            //Console.WriteLine(DateTime.Now);
 
-            return View(doctor);
+            Appointment appointment = new Appointment();
+
+            appointment.DateTime = DateTime.Parse(date);
+            appointment.PatientId = patientId;
+            appointment.DoctorId = doctorID;
+            appointment.IsApproved = false;
+
+            _appointmentDal.Create(appointment);
+
+            return RedirectToAction("Index");
         }
 
-        public IActionResult MyAppointments(int id)
+        public IActionResult MyAppointments()
         {
-            List<Appointment> appointments = new List<Appointment>();
-            appointments = _appointmentDal.GetAppointmentsWithPatientId(1); 
+            Patient patient = new Patient();
+            patient = _patientDal.GetByUserName(_userManager.GetUserName(User));
+            patient.Appointments = _appointmentDal.GetAppointmentsWithPatientId(patient.PatientId);
 
-            return View(appointments);
+            return View(patient);
+        }
+
+        [HttpPost]
+        public IActionResult MyAppointments(int appointmentId)
+        {
+            Appointment appointment = _appointmentDal.GetAppointmentById(appointmentId);
+            _appointmentDal.Delete(appointment);
+
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

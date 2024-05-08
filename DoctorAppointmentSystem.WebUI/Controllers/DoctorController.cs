@@ -1,6 +1,7 @@
 ﻿using DoctorAppointmentSystem.Data.Abstract;
 using DoctorAppointmentSystem.Entity;
 using DoctorAppointmentSystem.WebUI.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorAppointmentSystem.WebUI.Controllers
@@ -11,35 +12,41 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         private IAppointmentDal _appointmentDal;
         private IDoctorDal _doctorDal;
         private IScheduleDal _scheduleDal;
+        private readonly UserManager<AppUser> _userManager;
 
-        public DoctorController(IPatientDal patientDal, IAppointmentDal appointmentDal, IDoctorDal doctorDal, IScheduleDal scheduleDal)
+
+        public DoctorController(IPatientDal patientDal, IAppointmentDal appointmentDal, IDoctorDal doctorDal, IScheduleDal scheduleDal, UserManager<AppUser> userManager)
         {
             _patientDal = patientDal;
             _appointmentDal = appointmentDal;
             _doctorDal = doctorDal;
             _scheduleDal = scheduleDal;
+            _userManager = userManager;
 
         }
         public IActionResult Index()
         {
             Doctor doctor = new Doctor();
-            doctor = _doctorDal.GetById(1);
-            doctor.Appointments = _appointmentDal.GetAppointmentsWithDoctorId(1);
+            doctor = _doctorDal.GetByUserName(_userManager.GetUserName(User));
+            doctor.Appointments = _appointmentDal.GetAppointmentsWithDoctorId(doctor.DoctorId);
             return View(doctor);
         }
 
         public IActionResult AppointmentList() 
         {
-            List<Appointment> appointments = new List<Appointment>();
-            appointments = _appointmentDal.GetAppointmentsWithDoctorId(1);
+            Doctor doctor = new Doctor();
+            doctor = _doctorDal.GetByUserName(_userManager.GetUserName(User));
+            doctor.Appointments = _appointmentDal.GetAppointmentsWithDoctorId(doctor.DoctorId);
 
-            return View(appointments);
+            return View(doctor.Appointments);
         }
 
         public IActionResult Schedule()
         {
+            Doctor doctor = new Doctor();
+            doctor = _doctorDal.GetByUserName(_userManager.GetUserName(User));
             List<Schedule> schedules = new List<Schedule>();
-            schedules = _scheduleDal.GetSchedulesByDoctorId(1);
+            schedules = _scheduleDal.GetSchedulesByDoctorId(doctor.DoctorId);
 
             return View(schedules);
         }

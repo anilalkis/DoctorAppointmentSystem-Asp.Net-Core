@@ -2,9 +2,9 @@
 
 namespace DoctorAppointmentSystem.WebUI.Models
 {
-    public class PatientWithAppointmentViewModel
+    public class PatientAppointmentViewModel
     {
         public Patient Patient { get; set; }
-        public List<Appointment> Appointments { get; set; }
+        public Doctor Doctor { get; set; }
     }
 }

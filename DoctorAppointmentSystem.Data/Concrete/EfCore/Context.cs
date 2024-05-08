@@ -1,4 +1,5 @@
 ﻿using DoctorAppointmentSystem.Entity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DoctorAppointmentSystem.Data.Concrete.EfCore
 {
-    public class Context : DbContext
+    public class Context : IdentityDbContext<AppUser,AppRole,int>
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,7 +20,6 @@ namespace DoctorAppointmentSystem.Data.Concrete.EfCore
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Patient> Patients { get; set; }
 
     }
