@@ -11,11 +11,11 @@ namespace DoctorAppointmentSystem.Data.Concrete.EfCore
 {
     public class EfCoreDoctorDal : EfCoreGenericRepository<Doctor, Context>, IDoctorDal
     {
-        public Doctor GetByUserName(string UserName)
+        public Doctor GetByUserEmail(string UserEmail)
         {
             using (var context = new Context())
             {
-                return context.Doctors.FirstOrDefault(i => i.FullName == UserName);
+                return context.Doctors.FirstOrDefault(i => i.Email == UserEmail);
             }
         }
 

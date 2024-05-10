@@ -10,6 +10,6 @@ namespace DoctorAppointmentSystem.Data.Abstract
     public interface IPatientDal : IRepository<Patient>
     {
         Patient GetPatientWithAppointment(int id);
-        Patient GetByUserName(string UserName);
+        Patient GetByUserEmail(string UserEmail);
     }
 }

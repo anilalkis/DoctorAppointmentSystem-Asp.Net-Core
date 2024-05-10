@@ -29,11 +29,19 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a class="sidebar-link" href="./sample-page.html" aria-expanded="false">
+            <a asp-controller="Patient" asp-action="Settings" class="sidebar-link" aria-expanded="false">
                 <span>
                     <i class="ti ti-settings-2"></i>
                 </span>
                 <span class="hide-menu">Settings</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a asp-controller="Login" asp-action="Logout" class="sidebar-link alert alert-secondary" aria-expanded="false">
+                <span>
+                    <i class="ti ti-logout"></i>
+                </span>
+                <span class="hide-menu">Logout</span>
             </a>
         </li>
     </ul>

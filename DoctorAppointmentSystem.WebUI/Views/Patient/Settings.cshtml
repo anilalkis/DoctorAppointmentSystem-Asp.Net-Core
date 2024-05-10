@@ -1,0 +1,47 @@
+﻿@{
+    Layout = "_PatientLayout";
+}
+
+<div class="card">
+    <a asp-controller="PatientAccount" asp-action="AccountSettings" class="card-body d-flex align-items-center">
+        <i class="ti ti-home-cog settings "></i>
+        <h1 class="card-title fw-semibold ">Account Settings</h1>
+    </a>
+</div>
+<div class="card">
+    <a asp-controller="PatientAccount" asp-action="Details" class="card-body d-flex align-items-center">
+        <i class="ti ti-eye settings "></i>
+        <h1 class="card-title fw-semibold ">View Account Details</h1>
+    </a>
+</div>
+<div class="card">
+    <button style="background:transparent;border:none" class="card-body d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <i class="ti ti-circle-minus danger settings"></i>
+        <h1 style="color:red" class="card-title fw-semibold ">Delete Acoount</h1>
+    </button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="exampleModalLabel">Are you sure you want to delete the account?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+                <a asp-controller="PatientAccount" asp-action="Delete" class="btn btn-danger">Delete Account</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .settings {
+        padding: 15px;
+        font-size: 40px;
+        color: #5D87FF;
+        background: whitesmoke;
+        margin-right: 15px;
+    }
+</style>

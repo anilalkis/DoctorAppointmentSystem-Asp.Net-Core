@@ -33,7 +33,6 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
 				if (result.Succeeded)
 				{
                     var p = await _userManager.FindByNameAsync(user.Username);
-                    HttpContext.Session.SetString("Email", p.Email);
                     if (await _userManager.IsInRoleAsync( p,"Admin"))
                     {
                         return RedirectToAction("Index", "Admin");
@@ -58,6 +57,12 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
 			}
 
 			return View();
+		}
+
+		public async Task<IActionResult> Logout() 
+		{
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index");
 		}
 	}
 }

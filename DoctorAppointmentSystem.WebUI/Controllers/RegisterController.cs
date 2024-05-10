@@ -1,4 +1,5 @@
-﻿using DoctorAppointmentSystem.Entity;
+﻿using DoctorAppointmentSystem.Data.Abstract;
+using DoctorAppointmentSystem.Entity;
 using DoctorAppointmentSystem.WebUI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,10 +12,12 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
     public class RegisterController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly IPatientDal _patientDal;
 
-        public RegisterController(UserManager<AppUser> userManager)
+        public RegisterController(UserManager<AppUser> userManager, IPatientDal patientDal)
         {
             _userManager = userManager;
+            _patientDal = patientDal;
         }
         [HttpGet]
         public IActionResult Index()
@@ -29,7 +32,7 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
                 AppUser user = new AppUser {
                     
                     FullName = p.FullName,
-                    UserName = p.Username,
+                    UserName = p.Email,
                     Email = p.Email,
                 };
 
@@ -37,6 +40,13 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
 
                 if (result.Succeeded) 
                 {
+                    await _userManager.AddToRoleAsync(user, "Patient");
+                    _patientDal.Create(new Patient()
+                    {
+                        FullName=p.FullName,
+                        Email=p.Email,
+                        Phone=p.Phone
+                    });
                     return RedirectToAction("Index", "Login");
                 }
                 else

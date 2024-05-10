@@ -11,6 +11,6 @@ namespace DoctorAppointmentSystem.Data.Abstract
     {
         Doctor GetDoctorWithSchedule(int id);
         Doctor GetDoctorWithAppointment(int id);
-        Doctor GetByUserName(string UserName);
+        Doctor GetByUserEmail(string UserEmail);
     }
 }

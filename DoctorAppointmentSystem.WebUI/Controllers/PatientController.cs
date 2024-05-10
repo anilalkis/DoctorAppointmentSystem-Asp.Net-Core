@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DoctorAppointmentSystem.WebUI.Controllers
 {
-    [Authorize(Roles ="Patient")]
+    [Authorize(Roles = "Patient")]
     public class PatientController : Controller
     {
         private readonly ILogger<PatientController> _logger;
@@ -18,6 +18,7 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         private IDoctorDal _doctorDal;
         private IScheduleDal _scheduleDal;
         private readonly UserManager<AppUser> _userManager;
+
 
         public PatientController(ILogger<PatientController> logger, IPatientDal patientDal, IAppointmentDal appointmentDal, IDoctorDal doctorDal, IScheduleDal scheduleDal, UserManager<AppUser> userManager)
         {
@@ -32,8 +33,19 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         public IActionResult Index()
         {
             
-            Patient patient = new Patient();
-            patient = _patientDal.GetByUserName(_userManager.GetUserName(User));
+            string? UserEmail = _userManager.GetUserName(User);
+            if(UserEmail == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            var patient = _patientDal.GetByUserEmail(UserEmail);
+
+            if (patient == null)
+            {
+                return NotFound();
+            }
+
             patient.Appointments = _appointmentDal.GetAppointmentsWithPatientId(patient.PatientId);
 
             return View(patient);
@@ -57,8 +69,21 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
 
         public IActionResult Appointment(int id)
         {
+            if (id == 0)
+            {
+                return RedirectToAction("DoctorList");
+            }
+
+            string? UserName = _userManager.GetUserName(User);
+
+
+            if (UserName == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             PatientAppointmentViewModel model = new PatientAppointmentViewModel();
-            model.Patient = _patientDal.GetByUserName(_userManager.GetUserName(User));
+            model.Patient = _patientDal.GetByUserEmail(UserName);
             model.Doctor = _doctorDal.GetById(id);
             model.Doctor.Appointments = _appointmentDal.GetAppointmentsWithDoctorId(id);
             model.Doctor.Schedules = _scheduleDal.GetSchedulesByDoctorId(id);
@@ -69,10 +94,6 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         [HttpPost]
         public IActionResult Appointment(int patientId, int doctorID, string date)
         {
-            //Console.WriteLine(patientId);
-            //Console.WriteLine(doctorID);
-            //Console.WriteLine(date);
-            //Console.WriteLine(DateTime.Now);
 
             Appointment appointment = new Appointment();
 
@@ -88,8 +109,14 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
 
         public IActionResult MyAppointments()
         {
-            Patient patient = new Patient();
-            patient = _patientDal.GetByUserName(_userManager.GetUserName(User));
+            string? UserName = _userManager.GetUserName(User);
+
+            if (UserName == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            var patient = _patientDal.GetByUserEmail(UserName);
             patient.Appointments = _appointmentDal.GetAppointmentsWithPatientId(patient.PatientId);
 
             return View(patient);
@@ -102,6 +129,11 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
             _appointmentDal.Delete(appointment);
 
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Settings() 
+        {
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

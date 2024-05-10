@@ -1,11 +1,13 @@
 ﻿using DoctorAppointmentSystem.Data.Abstract;
 using DoctorAppointmentSystem.Entity;
 using DoctorAppointmentSystem.WebUI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorAppointmentSystem.WebUI.Controllers
 {
+    [Authorize(Roles = "Doctor,Admin")]
     public class DoctorController : Controller
     {
         private IPatientDal _patientDal;
@@ -26,16 +28,29 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         }
         public IActionResult Index()
         {
-            Doctor doctor = new Doctor();
-            doctor = _doctorDal.GetByUserName(_userManager.GetUserName(User));
+            string? UserEmail = _userManager.GetUserName(User);
+
+            if (UserEmail == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            var doctor = _doctorDal.GetByUserEmail(UserEmail);
             doctor.Appointments = _appointmentDal.GetAppointmentsWithDoctorId(doctor.DoctorId);
+            
             return View(doctor);
         }
 
         public IActionResult AppointmentList() 
         {
-            Doctor doctor = new Doctor();
-            doctor = _doctorDal.GetByUserName(_userManager.GetUserName(User));
+            string? UserEmail = _userManager.GetUserName(User);
+
+            if (UserEmail == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            var doctor = _doctorDal.GetByUserEmail(UserEmail);
             doctor.Appointments = _appointmentDal.GetAppointmentsWithDoctorId(doctor.DoctorId);
 
             return View(doctor.Appointments);
@@ -43,8 +58,14 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
 
         public IActionResult Schedule()
         {
-            Doctor doctor = new Doctor();
-            doctor = _doctorDal.GetByUserName(_userManager.GetUserName(User));
+            string? UserEmail = _userManager.GetUserName(User);
+
+            if (UserEmail == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            var doctor = _doctorDal.GetByUserEmail(UserEmail);
             List<Schedule> schedules = new List<Schedule>();
             schedules = _scheduleDal.GetSchedulesByDoctorId(doctor.DoctorId);
 
