@@ -1,0 +1,150 @@
+﻿<nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+    <ul id="sidebarnav">
+        <li class="nav-small-cap">
+            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <span class="hide-menu">Pages</span>
+        </li>
+        <li class="sidebar-item">
+            <a asp-controller="Admin" asp-action="Index" class="sidebar-link" aria-expanded="false">
+                <span>
+                    <i class="ti ti-home"></i>
+                </span>
+                <span class="hide-menu">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-small-cap">
+            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <span class="hide-menu">Users</span>
+        </li>
+        <li class="sidebar-item">
+            <a class="sidebar-link" data-bs-toggle="collapse" href="#doctormanager" aria-expanded="false" aria-controls="tables">
+                <span>
+                    <i class="ti ti-users"></i>
+                </span>
+                <span class="menu-title">Doctor Manager</span>
+                <i class="ti ti-chevron-right"></i>
+            </a>
+            <div class="collapse" id="doctormanager">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a asp-controller="Admin" asp-action="DoctorList" class="nav-link">Doctor List</a></li>
+                </ul>
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a asp-controller="Admin" asp-action="CreateDoctor" class="nav-link">Create Doctor</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="sidebar-item">
+            <a class="sidebar-link" data-bs-toggle="collapse" href="#patientmanager" aria-expanded="false" aria-controls="tables">
+                <span>
+                    <i class="ti ti-users"></i>
+                </span>
+                <span class="menu-title">Patient Manager</span>
+                <i class="ti ti-chevron-right"></i>
+            </a>
+            <div class="collapse" id="patientmanager">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a asp-controller="Admin" asp-action="PatientList" class="nav-link">Patient List</a></li>
+                </ul>
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a asp-controller="Admin" asp-action="CreatePatient" class="nav-link">Create Patient</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="sidebar-item">
+            <a class="sidebar-link" data-bs-toggle="collapse" href="#authorizations" aria-expanded="false" aria-controls="tables">
+                <span>
+                    <i class="ti ti-checkup-list"></i>
+                </span>
+                <span class="menu-title">Authorizations</span>
+                <i class="ti ti-chevron-right"></i>
+            </a>
+            <div class="collapse" id="authorizations">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a asp-controller="Role" asp-action="RoleList" class="nav-link">Roles</a></li>
+                </ul>
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a asp-controller="Role" asp-action="PatientList" class="nav-link">Patient Roles</a></li>
+                </ul>
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a asp-controller="Role" asp-action="CreatePatient" class="nav-link">Doctor Roles</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="sidebar-item">
+            <a asp-controller="Login" asp-action="Logout" class="sidebar-link alert alert-secondary" aria-expanded="false">
+                <span>
+                    <i class="ti ti-logout"></i>
+                </span>
+                <span class="hide-menu">Logout</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<style>
+    .left-sidebar .sidebar-nav .sidebar-item .sidebar-link[aria-expanded="true"] i.ti-chevron-right:before {
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+
+    .left-sidebar .sidebar-nav .sidebar-item .sidebar-link i.ti-chevron-right:before {
+        display: inline-block;
+        position: absolute;
+        top: 12px;
+        right: 20px;
+        -webkit-transition: all 0.2s ease-in;
+        -moz-transition: all 0.2s ease-in;
+        -ms-transition: all 0.2s ease-in;
+        -o-transition: all 0.2s ease-in;
+        transition: all 0.2s ease-in;
+    }
+
+    .left-sidebar .nav.sub-menu {
+        margin-bottom: 0;
+        margin-top: 0;
+        list-style: none;
+        padding: 0.25rem 0 0 3.07rem;
+        padding-bottom: 12px;
+    }
+
+        .left-sidebar .nav.sub-menu .nav-item {
+            padding: 0;
+        }
+
+            .left-sidebar .nav.sub-menu .nav-item::before {
+                content: '';
+                width: 5px;
+                height: 5px;
+                position: absolute;
+                margin-top: 16px;
+                border-radius: 50%;
+                background: #b2b2b2;
+            }
+
+            .left-sidebar .nav.sub-menu .nav-item .nav-link {
+                color: black;
+                padding: 0.7rem 1rem;
+                position: relative;
+                font-size: 0.875rem;
+                line-height: 1;
+                height: auto;
+                border-top: 0;
+            }
+
+                .left-sidebar .nav.sub-menu .nav-item .nav-link:hover {
+                    color: #5D87FF;
+                }
+
+                .left-sidebar .nav.sub-menu .nav-item .nav-link.active {
+                    color: #5D87FF;
+                    background: transparent;
+                }
+
+            .left-sidebar .nav.sub-menu .nav-item:hover {
+                background: transparent;
+            }
+
+</style>

@@ -1,0 +1,81 @@
+﻿@model List<AppRole>
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    <div class="card col-md-6 m-2">
+        <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4">Roles</h5>
+            <div class="table-responsive">
+                <table class="table text-nowrap mb-0 align-middle table-hover table-striped">
+                    <thead class="text-dark fs-4">
+                        <tr>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Id</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Role Name</h6>
+                            </th>
+                            <th>Update</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var role in Model)
+                        {
+                            <tr>
+                                <td class="border-bottom-0"><h6 class="fw-semibold mb-0">@role.Id</h6></td>
+                                <td class="border-bottom-0">
+                                    <h6 class="fw-semibold mb-1">@role.Name</h6>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <button onclick="delDoc(this)" value="@role.Id" data-bs-toggle="modal" data-bs-target="#deleteRmodal" class="btn btn-danger btn-sm">X</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card col-md-6 m-2">
+        <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4">Create Role</h5>
+            <form method="post" asp-controller="Role" asp-action="CreateRole">
+                <div class="row g-2 mb-3">
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input name="newRole" type="text" class="form-control" id="floatingInputGrid" placeholder="New Role">
+                            <label for="floatingInputGrid">Full Name</label>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@* popup *@
+<div class="modal fade" id="deleteRmodal" tabindex="-1" aria-labelledby="deleteRmodallabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="deleteRmodallabel">Are you sure you want to delete the role?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+                <form asp-controller="Role" asp-action="DeleteRole" method="post" style="display:inline;">
+                    <input type="hidden" name="id" id="roletId" />
+                    <button type="submit" class="btn btn-danger btn-sm">Delete Role</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function delDoc(item) {
+        document.getElementById("roletId").value = item.value;
+    }
+</script>

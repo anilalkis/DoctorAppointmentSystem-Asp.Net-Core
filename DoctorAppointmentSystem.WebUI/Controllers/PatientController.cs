@@ -46,7 +46,10 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
                 return NotFound();
             }
 
-            patient.Appointments = _appointmentDal.GetAppointmentsWithPatientId(patient.PatientId);
+            patient.Appointments = _appointmentDal.GetAppointmentsWithPatientId(patient.PatientId)
+                .OrderByDescending(appointment => appointment.DateTime)
+                .Take(5)
+                .ToList(); 
 
             return View(patient);
         }

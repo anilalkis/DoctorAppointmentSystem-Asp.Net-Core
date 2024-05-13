@@ -13,12 +13,21 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a asp-controller="Doctor" asp-action="AppointmentList" class="sidebar-link" aria-expanded="false">
+            <a class="sidebar-link" data-bs-toggle="collapse" href="#appo" aria-expanded="false" aria-controls="tables">
                 <span>
                     <i class="ti ti-checkup-list"></i>
                 </span>
-                <span class="hide-menu">My Appointments</span>
+                <span class="menu-title">My Appointments</span>
+                <i class="ti ti-chevron-right"></i>
             </a>
+            <div class="collapse" id="appo">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a asp-controller="Doctor" asp-action="AppointmentList" class="nav-link">Appointments</a></li>
+                </ul>
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a asp-controller="Doctor" asp-action="PastAppointmentList" class="nav-link">Past Appointments</a></li>
+                </ul>
+            </div>
         </li>
         <li class="sidebar-item">
             <a asp-controller="Doctor" asp-action="Schedule" class="sidebar-link" aria-expanded="false">

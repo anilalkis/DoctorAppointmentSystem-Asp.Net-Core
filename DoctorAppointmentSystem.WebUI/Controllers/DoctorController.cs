@@ -51,7 +51,23 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
             }
 
             var doctor = _doctorDal.GetByUserEmail(UserEmail);
-            doctor.Appointments = _appointmentDal.GetAppointmentsWithDoctorId(doctor.DoctorId);
+            doctor.Appointments = _appointmentDal.GetAppointmentsWithDoctorId(doctor.DoctorId)
+                .Where(x => x.DateTime >= DateTime.Now).ToList();
+
+            return View(doctor.Appointments);
+        }
+        public IActionResult PastAppointmentList()
+        {
+            string? UserEmail = _userManager.GetUserName(User);
+
+            if (UserEmail == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            var doctor = _doctorDal.GetByUserEmail(UserEmail);
+            doctor.Appointments = _appointmentDal.GetAppointmentsWithDoctorId(doctor.DoctorId)
+                .Where(x => x.DateTime < DateTime.Now).ToList();
 
             return View(doctor.Appointments);
         }
@@ -98,6 +114,53 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
             _appointmentDal.Update(appointment);
 
             return RedirectToAction("AppointmentList");
+        }
+
+        public IActionResult PatientProfile(int id) 
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            var patient = _patientDal.GetById(id);
+            patient.Appointments = _appointmentDal.GetAppointmentsWithPatientId(id);
+
+            return View(patient);
+        }
+
+        [HttpGet]
+        public IActionResult AppointmentDetails(int id)
+        {
+            if(id == 0) 
+            {
+                return NotFound();
+            }
+            var app = _appointmentDal.GetAppointmentById(id);
+
+            return View(app);
+        }
+
+        [HttpPost]
+        public IActionResult AppointmentDetails(string note,int id)
+        {
+            if(id==0)
+            {
+                return NotFound();
+            }
+
+            var app = _appointmentDal.GetAppointmentById(id);
+            var newapp = new Appointment()
+            {
+                AppointmentId = app.AppointmentId,
+                DateTime = app.DateTime,
+                IsApproved = app.IsApproved,
+                PatientId = app.PatientId,
+                DoctorId = app.DoctorId,
+                Note = note,
+            };
+            _appointmentDal.Update(newapp);
+            newapp = _appointmentDal.GetAppointmentById(id);
+            return View(newapp);
         }
     }
 }

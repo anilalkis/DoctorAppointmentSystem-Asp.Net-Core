@@ -1,0 +1,44 @@
+﻿@model Doctor
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">Doctor Informations</h5>
+        <form asp-controller="Admin" asp-action="UpdateDoctor" method="post">
+            <input asp-for="@Model.Email" type="hidden" value="@Model.Email"/>
+            <div class="row g-2 mb-3">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input asp-for="@Model.FullName" type="text" class="form-control" id="floatingInputGrid" placeholder="Full Name" value="@Model.FullName">
+                        <label for="floatingInputGrid">Full Name</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-2 mb-3">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input asp-for="@Model.Picture" type="text" class="form-control" id="floatingInputGrid" placeholder="Picture" value="@Model.Picture">
+                        <label for="floatingInputGrid">Picture</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input asp-for="@Model.Specialization" type="text" class="form-control" id="floatingInputGrid" placeholder="Specialization" value="@Model.Specialization">
+                        <label for="floatingSelectGrid">Specialization</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-2 mb-3">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <textarea style="height:200px" asp-for="@Model.Bio" rows="5" class="form-control" id="floatingInputGrid" placeholder="Bio" value="@Model.Bio"></textarea>
+                        <label for="floatingInputGrid">Bio</label>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>

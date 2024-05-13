@@ -15,5 +15,8 @@ namespace DoctorAppointmentSystem.Entity
         public Patient Patient { get; set; }
         public int DoctorId { get; set; }
         public Doctor Doctor { get; set; }
+        public string Note { get; set; }
+        public DateTime CreatedDate { get; set; }
+
     }
 }

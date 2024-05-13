@@ -17,6 +17,8 @@ namespace DoctorAppointmentSystem.Data.Concrete.EfCore
             {
                 return context.Appointments
                     .Where(i => i.AppointmentId == id)
+                    .Include(i => i.Patient)
+                    .Include(i => i.Doctor)
                     .FirstOrDefault();
             }
         }

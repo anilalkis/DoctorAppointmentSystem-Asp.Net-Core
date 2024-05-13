@@ -1,0 +1,55 @@
+﻿@model List<Appointment>
+@{
+    Layout = "_DoctorLayout";
+}
+
+<div class="card alert alert-secondary">
+    <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">Past Appointments</h5>
+        <div class="homepage-bookings">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Patient</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Scheduled Date & Time</th>
+                        <th scope="col">IsApproved</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var appointment in Model)
+                    {
+                        if (appointment.DateTime < DateTime.Now)
+                        {
+                            <tr>
+                                <th scope="row">@appointment.AppointmentId</th>
+                                <td>
+                                    <a class="d-flex align-items-center" asp-controller="Doctor" asp-action="PatientProfile" asp-route-id="@appointment.Patient.PatientId">
+                                        <h6 class="fw-semibold mb-1 mx-2">@appointment.Patient.FullName</h6>
+                                        <button style="padding:4px" class="btn btn-outline-secondary btn-sm">></button>
+                                    </a>
+                                </td>
+                                <td>@appointment.Patient.Phone</td>
+                                <td>@appointment.Patient.Age</td>
+                                <td>@appointment.DateTime.ToLongDateString()-@appointment.DateTime.ToShortTimeString()</td>
+                                @if (appointment.IsApproved)
+                                {
+                                    <td class="text-success"> Approved</td>
+                                }
+                                else
+                                {
+                                    <td class="text-danger"> Not Approved</td>
+                                }
+                                <td>
+                                    <a class="btn btn-secondary btn-sm" asp-controller="Doctor" asp-action="AppointmentDetails" asp-route-id="@appointment.AppointmentId">Details</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+﻿@model List<Doctor>
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4 d-flex justify-content-between align-items-center">
+            <span>Doctors</span>
+            <a asp-controller="Admin" asp-action="CreateDoctor" class="btn btn-primary btn-sm">Add Doctor</a>
+        </h5>
+        <div class="homepage-bookings">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Specialization</th>
+                        <th scope="col">Update</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var doctor in Model)
+                    {
+                        <tr>
+                            <th scope="row">@doctor.DoctorId</th>
+                            <td>@doctor.FullName</td>
+                            <td>@doctor.Email</td>
+                            <td>@doctor.Specialization</td>
+                            <td>
+                                <a asp-controller="Admin" asp-action="UpdateDoctor" asp-route-id="@doctor.DoctorId" type="submit" class="btn btn-warning btn-sm">Edit Doctor</a>
+                                <button onclick="delDoc(this)" value="@doctor.DoctorId" data-bs-toggle="modal" data-bs-target="#deletemodal" class="btn btn-danger btn-sm">Delete Doctor</button>
+                            </td>
+
+                        </tr>
+                    }
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@* popup *@
+<div class="modal fade" id="deletemodal" tabindex="-1" aria-labelledby="deletemodallabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="deletemodallabel">Are you sure you want to delete the doctor?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+                <form asp-controller="Admin" asp-action="DeleteDoctor" method="post" style="display:inline;">
+                    <input type="hidden" name="id" id="doctorId" />
+                    <button type="submit" class="btn btn-danger btn-sm">Delete Doctor</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function delDoc(item) 
+    {
+        document.getElementById("doctorId").value = item.value;
+    }
+</script>

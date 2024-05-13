@@ -1,6 +1,99 @@
 ﻿@model List<Appointment>
 @{
     Layout = "_DoctorLayout";
+
+    StringBuilder todays = new StringBuilder();
+    StringBuilder upcoming = new StringBuilder();
+    StringBuilder past = new StringBuilder();
+
+    foreach (var appointment in Model)
+    {
+        if (appointment.DateTime == DateTime.Now)
+        {
+            todays.AppendLine("<tr>");
+            todays.AppendLine("<th scope='row'>"+@appointment.AppointmentId+"</th>");
+            todays.AppendLine("<td>"+@appointment.Patient.FullName+"</td>");
+            todays.AppendLine("<td>"+@appointment.Patient.Phone+"</td>");
+            todays.AppendLine("<td>"+@appointment.Patient.Age+"</td>");
+            todays.AppendLine("<td>"+@appointment.DateTime.ToLongDateString()+"-"+@appointment.DateTime.ToShortTimeString()+"</td>");
+            @if (appointment.IsApproved)
+            {
+                todays.AppendLine("<td class='text-success'>Approved</td>");
+                todays.AppendLine("<td>");
+                todays.AppendLine("<form action='/Doctor/UpdateStatus' method='post' style='display: inline; '>");
+                todays.AppendLine("<input type='hidden' name='AppointmentId' value='"+@appointment.AppointmentId+"' />");
+                todays.AppendLine("<button type='submit' class='btn btn-danger btn-sm'>Cancel Appointment</button>");
+                todays.AppendLine("</form>");
+                todays.AppendLine("<td>");
+
+            }
+            else
+            {
+                todays.AppendLine("<td class='text-danger'>Not Approved</td>");
+                todays.AppendLine("<td>");
+                todays.AppendLine("<form action='/Doctor/UpdateStatus' method='post' style='display: inline; '>");
+                todays.AppendLine("<input type='hidden' name='AppointmentId' value='"+@appointment.AppointmentId+"' />");
+                todays.AppendLine("<button type='submit' class='btn btn-success btn-sm'>Confirm Appointment</button>");
+                todays.AppendLine("</form>");
+                todays.AppendLine("<td>");
+            }
+            todays.AppendLine("</tr>");
+        }
+        if (appointment.DateTime < DateTime.Now)
+        {
+            upcoming.AppendLine("<tr>");
+            upcoming.AppendLine("<th scope='row'>" + @appointment.AppointmentId + "</th>");
+            upcoming.AppendLine("<td>" + @appointment.Patient.FullName + "</td>");
+            upcoming.AppendLine("<td>" + @appointment.Patient.Phone + "</td>");
+            upcoming.AppendLine("<td>" + @appointment.Patient.Age + "</td>");
+            upcoming.AppendLine("<td>" + @appointment.DateTime.ToLongDateString() + "-" + @appointment.DateTime.ToShortTimeString() + "</td>");
+            @if (appointment.IsApproved)
+            {
+                upcoming.AppendLine("<td class='text-success'>Approved</td>");
+                upcoming.AppendLine("<td>");
+                upcoming.AppendLine("<form action='/Doctor/UpdateStatus' method='post' style='display: inline; '>");
+                upcoming.AppendLine("<input type='hidden' name='AppointmentId' value='"+@appointment.AppointmentId+"' />");
+                upcoming.AppendLine("<button type='submit' class='btn btn-danger btn-sm'>Cancel Appointment</button>");
+                upcoming.AppendLine("</form>");
+                upcoming.AppendLine("<td>");
+
+            }
+            else
+            {
+                upcoming.AppendLine("<td class='text-danger'>Not Approved</td>");
+                upcoming.AppendLine("<td>");
+                upcoming.AppendLine("<form action='/Doctor/UpdateStatus' method='post' style='display: inline; '>");
+                upcoming.AppendLine("<input type='hidden' name='AppointmentId' value='"+@appointment.AppointmentId+"' />");
+                upcoming.AppendLine("<button type='submit' class='btn btn-success btn-sm'>Confirm Appointment</button>");
+                upcoming.AppendLine("</form>");
+                upcoming.AppendLine("<td>");
+            }
+            upcoming.AppendLine("</tr>");
+        }
+        if (appointment.DateTime > DateTime.Now)
+        {
+            past.AppendLine("<tr>");
+            past.AppendLine("<th scope='row'>" + @appointment.AppointmentId + "</th>");
+            past.AppendLine("<td>" + @appointment.Patient.FullName + "</td>");
+            past.AppendLine("<td>" + @appointment.Patient.Phone + "</td>");
+            past.AppendLine("<td>" + @appointment.Patient.Age + "</td>");
+            past.AppendLine("<td>" + @appointment.DateTime.ToLongDateString() + "-" + @appointment.DateTime.ToShortTimeString() + "</td>");
+            @if (appointment.IsApproved)
+            {
+                past.AppendLine("<td class='text-success'>Approved</td>");
+
+            }
+            else
+            {
+                past.AppendLine("<td class='text-danger'>Not Approved</td>");
+            }
+            past.AppendLine("</tr>");
+        }
+    }
+
+    var todaystable = todays.ToString();
+    var upcomingtable = upcoming.ToString();
+    var pasttable = past.ToString();
 }
 
 @* <div id="alertMessage" class="alert alert-warning alert-dismissible fade" role="alert">
@@ -9,7 +102,57 @@
 </div>
  *@
 
-<div class="card">
+<div class="card alert alert-secondary">
+    <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">Today's Appointments</h5>
+        <div class="homepage-bookings">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Patient</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Scheduled Date & Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var appointment in Model)
+                    {
+                        if (appointment.DateTime == DateTime.Now)
+                        {
+                            <tr>
+                                <th scope="row">@appointment.AppointmentId</th>
+                                <td>
+                                    <a class="d-flex align-items-center" asp-controller="Doctor" asp-action="PatientProfile" asp-route-id="@appointment.Patient.PatientId">
+                                        <h6 class="fw-semibold mb-1 mx-2">@appointment.Patient.FullName</h6>
+                                        <button style="padding:4px" class="btn btn-outline-secondary btn-sm">></button>
+                                    </a>
+                                </td>
+                                <td>@appointment.Patient.Phone</td>
+                                <td>@appointment.Patient.Age</td>
+                                <td>@appointment.DateTime.ToLongDateString()-@appointment.DateTime.ToShortTimeString()</td>
+                                @if (appointment.IsApproved)
+                                {
+                                    <td class="text-success"> Approved</td>
+                                }
+                                else
+                                {
+                                    <td class="text-danger"> Not Approved</td>
+                                }
+                                <td>
+                                    <a class="btn btn-secondary btn-sm" asp-controller="Doctor" asp-action="AppointmentDetails" asp-route-id="@appointment.AppointmentId">Details</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="card alert alert-secondary">
     <div class="card-body">
         <h5 class="card-title fw-semibold mb-4">Upcoming Appointments</h5>
         <div class="homepage-bookings">
@@ -32,20 +175,18 @@
                         {
                             <tr>
                             <th scope="row">@appointment.AppointmentId</th>
-                            <td>@appointment.Patient.FullName</td>
+                            <td>
+                                <a class="d-flex align-items-center" asp-controller="Doctor" asp-action="PatientProfile" asp-route-id="@appointment.Patient.PatientId">
+                                    <h6 class="fw-semibold mb-1 mx-2">@appointment.Patient.FullName</h6>
+                                    <button style="padding:4px" class="btn btn-outline-secondary btn-sm">></button>
+                                </a>
+                            </td>
                             <td>@appointment.Patient.Phone</td>
                             <td>@appointment.Patient.Age</td>
                             <td>@appointment.DateTime.ToLongDateString()-@appointment.DateTime.ToShortTimeString()</td>
                             @if (appointment.IsApproved)
                             {
                                 <td class="text-success"> Approved</td>
-                            }
-                            else
-                            {
-                                <td class="text-danger"> Not Approved</td>
-                            }
-                            @if (appointment.IsApproved)
-                            {
                                 <td>
                                     <form action="/Doctor/UpdateStatus" method="post" style="display:inline;">
                                         <input type="hidden" name="AppointmentId" value="@appointment.AppointmentId" />
@@ -55,6 +196,7 @@
                             }
                             else
                             {
+                                <td class="text-danger"> Not Approved</td>
                                 <td>
                                     <form action="/Doctor/UpdateStatus" method="post" style="display:inline;">
                                         <input type="hidden" name="AppointmentId" value="@appointment.AppointmentId" />
@@ -62,7 +204,9 @@
                                     </form>
                                 </td>
                             }
-
+                            <td>
+                                <a class="btn btn-secondary btn-sm" asp-controller="Doctor" asp-action="AppointmentDetails" asp-route-id="@appointment.AppointmentId">Details</a>
+                            </td>
                         </tr>
                         }
                     }
@@ -72,7 +216,7 @@
     </div>
 </div>
 
-<div class="card alert alert-secondary">
+@* <div class="card alert alert-secondary">
     <div class="card-body">
         <h5 class="card-title fw-semibold mb-4">Past Appointments</h5>
         <div class="homepage-bookings">
@@ -113,5 +257,5 @@
             </table>
         </div>
     </div>
-</div>
+</div> *@
 

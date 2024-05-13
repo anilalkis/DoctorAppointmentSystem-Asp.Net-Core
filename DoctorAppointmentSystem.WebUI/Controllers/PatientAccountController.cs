@@ -92,34 +92,30 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(AcoountSettingsViewModel model)
+        public async Task<IActionResult> ChangePassword(string? OldPassword, string? NewPassword)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return NotFound();
             }
 
-            if ((model.OldPassword != null) && (model.NewPassword != null))
+            if ((OldPassword != null) && (NewPassword != null))
             {
-                var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                var changePasswordResult = await _userManager.ChangePasswordAsync(user, OldPassword, NewPassword);
                 if (!changePasswordResult.Succeeded)
                 {
                     foreach (var error in changePasswordResult.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
+                        await Console.Out.WriteLineAsync(error.ToString());
                     }
-                    return View(model);
+                    return RedirectToAction("AccountSettings");
                 }
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index","Patient");
         }
 
         public IActionResult Details() 

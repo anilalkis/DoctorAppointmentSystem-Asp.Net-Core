@@ -1,11 +1,11 @@
 ﻿@model Patient
 @{
-    Layout = "_PatientLayout";
+    Layout = "_AdmintLayout";
 }
 
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title fw-semibold mb-4">My Personal Informations</h5>
+        <h5 class="card-title fw-semibold mb-4">New Patient</h5>
         <form method="post">
             <div class="row g-2 mb-3">
                 <div class="col-md">
@@ -43,29 +43,6 @@
                             <option value="Female">Female</option>
                         </select>
                         <label for="floatingSelectGrid">Gender</label>
-                    </div>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title fw-semibold mb-4">Login Settings</h5>
-        <form asp-controller="AccountSettings" asp-action="ChangePassword" method="post">
-            <div class="row g-2 mb-3">
-                <div class="col-md">
-                    <div class="form-floating">
-                        <input name="OldPasword" @* asp-for="@Model.OldPassword" *@ type="password" class="form-control" id="floatingInputGrid" placeholder="name@example.com" value="">
-                        <label for="floatingInputGrid">Old Password</label>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <div class="form-floating">
-                        <input name="NewPassword" @* asp-for="@Model.NewPassword" *@ type="password" class="form-control" id="floatingInputGrid" placeholder="Phone" value="">
-                        <label for="floatingSelectGrid">New Password</label>
                     </div>
                 </div>
             </div>

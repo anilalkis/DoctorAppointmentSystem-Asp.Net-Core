@@ -17,6 +17,6 @@ namespace DoctorAppointmentSystem.Entity
 
         //public string WorkingHours { get; set; }
         public bool IsWorkingDay { get; set; }
-        public required Doctor Doctor { get; set; }
+        public Doctor Doctor { get; set; }
     }
 }
