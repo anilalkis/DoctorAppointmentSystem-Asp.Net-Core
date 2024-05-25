@@ -1,5 +1,6 @@
 ﻿using DoctorAppointmentSystem.Data.Abstract;
 using DoctorAppointmentSystem.Entity;
+using DoctorAppointmentSystem.WebUI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Numerics;
@@ -28,7 +29,12 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(new AdminDashboardViewModel()
+            {
+                doctors = _doctorDal.GetAll(),
+                patients = _patientDal.GetAll(),
+                appointments = _appointmentDal.GetAll(),
+            }); 
         }
 
         public IActionResult DoctorList()
@@ -242,7 +248,7 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
 
             _patientDal.Update(patient);
 
-            return RedirectToAction("PatinetList");
+            return RedirectToAction("PatientList");
         }
 
         [HttpPost]

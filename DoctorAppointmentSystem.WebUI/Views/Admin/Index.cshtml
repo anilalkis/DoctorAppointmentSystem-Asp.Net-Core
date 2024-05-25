@@ -1,50 +1,166 @@
-﻿@{
+﻿@model AdminDashboardViewModel
+@{
     Layout = "_AdminLayout";
 }
 
 <div class="row">
-    <div class="col-md-3">
-        <div class="card alert alert-light">
+    <div class="col-md-4">
+        <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4">Doctors</h5>
-                <div class="row align-items-center">
+                <div class="row align-items-center mb-4">
                     <div class="col-8">
-                        <h1>2</h1>
+                        <h1>@Model.doctors.Capacity</h1>
                     </div>
                     <div class="col-4">
                         <i style="    color: #5D87FF;
-                                        font-size: xxx-large;
-                                        padding: 10px;
-                                        background: aliceblue;" 
-                            class="ti ti-users btn-primary w-100">
+                                        font-size: 30px;
+                                        padding: 15px;
+                                        border: solid;
+                                        border-radius: 50px;"
+                           class="ti ti-users btn-primary w-100">
                         </i>
                     </div>
                 </div>
+                <hr style="
+                        border-radius: 100px;
+                        border: solid 2px;
+                        border-color:#5D87FF;
+                        opacity:1" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title fw-semibold mb-4">Totlal Patients</h5>
+                <div class="row align-items-center mb-4">
+                    <div class="col-8">
+                        <h1>@Model.patients.Capacity</h1>
+                    </div>
+                    <div class="col-4">
+                        <i style="    color: #00d12e;
+                                        font-size: 30px;
+                                        padding: 15px;
+                                        border: solid;
+                                        border-radius: 50px;"
+                           class="ti ti-users btn-primary w-100">
+                        </i>
+                    </div>
+                </div>
+                <hr style="
+                        border-radius: 100px;
+                        border: solid 2px;
+                        border-color:#00d12e;
+                        opacity:1" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title fw-semibold mb-4">Appointments</h5>
+                <div class="row align-items-center mb-4">
+                    <div class="col-8">
+                        <h1>@Model.appointments.Capacity</h1>
+                    </div>
+                    <div class="col-4">
+                        <i style="    color: #f41919;
+                                            font-size: 30px;
+                                            padding: 15px;
+                                            border: solid;
+                                            border-radius: 50px;"
+                           class="ti ti-users btn-primary w-100">
+                        </i>
+                    </div>
+                </div>
+                <hr style="
+                            border-radius: 100px;
+                            border: solid 2px;
+                            border-color:#f41919;
+                            opacity:1" />
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title fw-semibold mb-4 d-flex justify-content-between align-items-center">
+                    <span>Doctors</span>
+                    <a asp-controller="Admin" asp-action="CreateDoctor" class="btn btn-primary btn-sm">Add Doctor</a>
+                </h5>
+                <div class="homepage-bookings">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Specialization</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var doctor in Model.doctors)
+                            {
+                                <tr>
+                                    <th scope="row">@doctor.DoctorId</th>
+                                    <td>
+                                        <a class="d-flex align-items-center" asp-controller="Patient" asp-action="Details " asp-route-id="@doctor.DoctorId">
+                                            <h6 class="fw-semibold mb-1 mx-2">@doctor.FullName</h6>
+                                            <button style="padding:4px" class="btn btn-outline-secondary btn-sm">></button>
+                                        </a>
+                                    </td>
+                                    <td>@doctor.Email</td>
+                                    <td>@doctor.Specialization</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title fw-semibold mb-4">Sample Page</h5>
-                <p class="mb-0">This is a sample page </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title fw-semibold mb-4">Sample Page</h5>
-                <p class="mb-0">This is a sample page </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title fw-semibold mb-4">Sample Page</h5>
-                <p class="mb-0">This is a sample page </p>
+                <h5 class="card-title fw-semibold mb-4 d-flex justify-content-between align-items-center">
+                    <span>Patients</span>
+                    <a asp-controller="Admin" asp-action="CreatePatient" class="btn btn-primary btn-sm">Add Patient</a>
+                </h5>
+                <div class="homepage-bookings">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Gender</th>
+                                <th scope="col">Age</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var patient in Model.patients)
+                            {
+                                <tr>
+                                    <th scope="row">@patient.PatientId</th>
+                                    <td>
+                                        <a class="d-flex align-items-center" asp-controller="Doctor" asp-action="PatientProfile" asp-route-id="@patient.PatientId">
+                                            <h6 class="fw-semibold mb-1 mx-2">@patient.FullName</h6>
+                                            <button style="padding:4px" class="btn btn-outline-secondary btn-sm">></button>
+                                        </a>
+                                    </td>
+                                    <td>@patient.Email</td>
+                                    <td>@patient.Gender</td>
+                                    <td>@patient.Age</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

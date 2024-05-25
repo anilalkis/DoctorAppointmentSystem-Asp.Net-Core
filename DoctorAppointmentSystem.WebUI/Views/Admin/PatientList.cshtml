@@ -5,11 +5,16 @@
 
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title fw-semibold mb-4 d-flex justify-content-between align-items-center">
-            <span>Patients</span>
-            <a asp-controller="Admin" asp-action="CreatePatient" class="btn btn-primary btn-sm">Add Patient</a>
-        </h5>
-        <div class="homepage-bookings">
+        <div class="card-title fw-semibold mb-4 d-flex justify-content-between align-items-center">
+            <h4>Patients</h4>
+            <div>
+                <div class="form-outline" data-mdb-input-init>
+                    <input placeholder="Search Doctor" type="search" id="patientSearch" class="form-control" style="width:350px" />
+                </div>
+            </div>
+            <a asp-controller="Admin" asp-action="CreateDoctor" class="btn btn-primary btn-sm">Add Doctor</a>
+        </div>
+        <div id="patientTable" class="homepage-bookings">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -66,4 +71,26 @@
     function delDoc(item) {
         document.getElementById("patientId").value = item.value;
     }
+
+    document.getElementById('patientSearch').addEventListener('keyup', function () {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById('patientSearch');
+        filter = input.value.toLowerCase();
+        table = document.getElementById('patientTable');
+        tr = table.getElementsByTagName('tr');
+
+        for (i = 1; i < tr.length; i++) {
+            tr[i].style.display = 'none';
+            td = tr[i].getElementsByTagName('td');
+            for (var j = 0; j < td.length; j++) {
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = '';
+                        break;
+                    }
+                }
+            }
+        }
+    });
 </script>

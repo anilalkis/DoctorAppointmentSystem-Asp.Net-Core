@@ -95,15 +95,16 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         }
         
         [HttpPost]
-        public IActionResult Appointment(int patientId, int doctorID, string date)
+        public IActionResult Appointment(int patientId, int doctorId, string date)
         {
 
             Appointment appointment = new Appointment();
 
             appointment.DateTime = DateTime.Parse(date);
             appointment.PatientId = patientId;
-            appointment.DoctorId = doctorID;
+            appointment.DoctorId = doctorId;
             appointment.IsApproved = false;
+            appointment.Note = " ";
 
             _appointmentDal.Create(appointment);
 
