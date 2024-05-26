@@ -1,7 +1,9 @@
 using DoctorAppointmentSystem.Data.Abstract;
 using DoctorAppointmentSystem.Data.Concrete.EfCore;
 using DoctorAppointmentSystem.Entity;
+using DoctorAppointmentSystem.WebUI.EmailServices;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -18,6 +20,9 @@ builder.Services.AddScoped(typeof(IScheduleDal), typeof(EfCoreScheduleDal));
 
 builder.Services.AddDbContext<Context>();
 builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<Context>();
+
+
+builder.Services.AddScoped<IEmailService,GmailEmailSender>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {

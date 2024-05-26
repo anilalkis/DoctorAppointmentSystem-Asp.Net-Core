@@ -6,6 +6,8 @@ using DoctorAppointmentSystem.Data.Abstract;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using DoctorAppointmentSystem.WebUI.EmailServices;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace DoctorAppointmentSystem.WebUI.Controllers
 {
@@ -18,16 +20,18 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         private IDoctorDal _doctorDal;
         private IScheduleDal _scheduleDal;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IEmailService _emailSender;
 
 
-        public PatientController(ILogger<PatientController> logger, IPatientDal patientDal, IAppointmentDal appointmentDal, IDoctorDal doctorDal, IScheduleDal scheduleDal, UserManager<AppUser> userManager)
+        public PatientController(ILogger<PatientController> logger, IPatientDal patientDal, IAppointmentDal appointmentDal, IDoctorDal doctorDal, IScheduleDal scheduleDal, UserManager<AppUser> userManager, IEmailService emailSender)
         {
             _logger = logger;
             _patientDal = patientDal;
             _appointmentDal = appointmentDal;
             _doctorDal = doctorDal;
             _scheduleDal = scheduleDal;
-            _userManager = userManager; 
+            _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -97,6 +101,8 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         [HttpPost]
         public IActionResult Appointment(int patientId, int doctorId, string date)
         {
+            var patient = _patientDal.GetById(patientId);
+            var doctor = _doctorDal.GetById(doctorId);
 
             Appointment appointment = new Appointment();
 
@@ -106,6 +112,7 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
             appointment.IsApproved = false;
             appointment.Note = " ";
 
+            _emailSender.Execute("anilalkis86@gmail.com", "Appointment", $"Merhaba {patient.FullName},\n\nRandevu talebiniz alýnmýþtýr. Detaylý bilgi aþaðýda eklenmiþtir.\n\n  Randevu Tarihi:{appointment.DateTime.ToShortTimeString()} \n\n Randevu Saati: {appointment.DateTime.ToLongDateString()}\n\n    Doktor Adý: {doctor.FullName}\n\n    Randevu Durumu: Not Approved\n\n Ýyi günler dileriz.\n \nMedisen");
             _appointmentDal.Create(appointment);
 
             return RedirectToAction("Index");
@@ -145,5 +152,7 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
     }
 }
