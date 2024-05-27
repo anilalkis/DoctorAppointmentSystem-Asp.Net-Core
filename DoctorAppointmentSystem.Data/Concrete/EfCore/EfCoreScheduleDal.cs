@@ -26,7 +26,8 @@ namespace DoctorAppointmentSystem.Data.Concrete.EfCore
             using (var context = new Context())
             {
                 return context.Schedules
-                    .Where(i => i.DoctorId == id && i.IsWorkingDay == true)
+                    .Where(i => i.DoctorId == id)
+                    .OrderBy(i => i.DayOfWeek)
                     .ToList();
             }
         }

@@ -6,5 +6,6 @@ namespace DoctorAppointmentSystem.WebUI.Models
     {
         public Patient Patient { get; set; }
         public Doctor Doctor { get; set; }
+        public List<DayOff> daysOff { get; set; }
     }
 }

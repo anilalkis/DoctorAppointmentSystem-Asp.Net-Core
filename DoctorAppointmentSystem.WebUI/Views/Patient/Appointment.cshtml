@@ -3,12 +3,25 @@
     List<DayOfWeek> scheduleDays = new List<DayOfWeek>();
     foreach (var schedule in Model.Doctor.Schedules)
     {
-        scheduleDays.Add(schedule.DayOfWeek);
+        if(schedule.IsWorkingDay)
+        {
+            scheduleDays.Add(schedule.DayOfWeek);
+        }
     }
     List<DateTime> appointmentDays = new List<DateTime>();
     foreach (var appointment in Model.Doctor.Appointments)
     {
         appointmentDays.Add(appointment.DateTime);
+    }
+    List<DateTime> offDays = new List<DateTime>();
+    foreach (var dayoff in Model.daysOff)
+    {
+        DateTime current = dayoff.StartDate;
+        while (current <= dayoff.EndDate)
+        {
+            offDays.Add(current);
+            current = current.AddDays(1);
+        }
     }
 
 
@@ -28,7 +41,7 @@
 
     for (DateTime date = day; date <= endDate; date = date.AddDays(1))
     {
-        if(scheduleDays.Contains(date.DayOfWeek))
+        if(scheduleDays.Contains(date.DayOfWeek) && !(offDays.Contains(date)))
         {
             <div class="card mt-3 p-0">
                 <div class="card-header d-flex align-items-center justify-content-center" data-bs-toggle="collapse" href="#Collapse@(counter.ToString())" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">

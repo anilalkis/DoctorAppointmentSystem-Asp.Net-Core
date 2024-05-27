@@ -17,6 +17,7 @@ builder.Services.AddScoped(typeof(IDoctorDal), typeof(EfCoreDoctorDal));
 builder.Services.AddScoped(typeof(IPatientDal), typeof(EfCorePatientDal));
 builder.Services.AddScoped(typeof(IAppointmentDal), typeof(EfCoreAppointmentDal));
 builder.Services.AddScoped(typeof(IScheduleDal), typeof(EfCoreScheduleDal));
+builder.Services.AddScoped(typeof(IDayOffDal), typeof(EfCoreDayOffDal));
 
 builder.Services.AddDbContext<Context>();
 builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<Context>();

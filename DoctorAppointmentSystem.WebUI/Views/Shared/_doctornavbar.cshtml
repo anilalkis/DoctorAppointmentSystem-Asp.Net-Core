@@ -30,12 +30,24 @@
             </div>
         </li>
         <li class="sidebar-item">
-            <a asp-controller="Doctor" asp-action="Schedule" class="sidebar-link" aria-expanded="false">
+            <a class="sidebar-link" data-bs-toggle="collapse" href="#schedule" aria-expanded="false" aria-controls="tables">
                 <span>
-                    <i class="ti ti-calendar-time"></i>
+                    <i class="ti ti-checkup-list"></i>
                 </span>
-                <span class="hide-menu">My Schedule</span>
+                <span class="menu-title">Schedule</span>
+                <i class="ti ti-chevron-right"></i>
             </a>
+            <div class="collapse" id="schedule">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a asp-controller="Doctor" asp-action="Schedule" class="nav-link">My Schedule</a></li>
+                </ul>
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a asp-controller="Doctor" asp-action="LeaveRequest" class="nav-link">Leave Requests</a></li>
+                </ul>
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a asp-controller="Doctor" asp-action="OffDays" class="nav-link">Permissions</a></li>
+                </ul>
+            </div>
         </li>
         <li class="sidebar-item">
             <a class="sidebar-link" href="./sample-page.html" aria-expanded="false">

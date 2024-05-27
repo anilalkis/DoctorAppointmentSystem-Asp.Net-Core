@@ -19,11 +19,12 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         private IAppointmentDal _appointmentDal;
         private IDoctorDal _doctorDal;
         private IScheduleDal _scheduleDal;
+        private IDayOffDal _dayOffDal;
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailService _emailSender;
 
 
-        public PatientController(ILogger<PatientController> logger, IPatientDal patientDal, IAppointmentDal appointmentDal, IDoctorDal doctorDal, IScheduleDal scheduleDal, UserManager<AppUser> userManager, IEmailService emailSender)
+        public PatientController(ILogger<PatientController> logger, IPatientDal patientDal, IAppointmentDal appointmentDal, IDoctorDal doctorDal, IScheduleDal scheduleDal, UserManager<AppUser> userManager, IEmailService emailSender, IDayOffDal dayOffDal)
         {
             _logger = logger;
             _patientDal = patientDal;
@@ -32,6 +33,7 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
             _scheduleDal = scheduleDal;
             _userManager = userManager;
             _emailSender = emailSender;
+            _dayOffDal = dayOffDal;
         }
 
         public IActionResult Index()
@@ -83,7 +85,7 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
 
             string? UserName = _userManager.GetUserName(User);
 
-
+             
             if (UserName == null)
             {
                 return RedirectToAction("Index", "Login");
@@ -94,6 +96,7 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
             model.Doctor = _doctorDal.GetById(id);
             model.Doctor.Appointments = _appointmentDal.GetAppointmentsWithDoctorId(id);
             model.Doctor.Schedules = _scheduleDal.GetSchedulesByDoctorId(id);
+            model.daysOff = _dayOffDal.GetDaysByDoctorId(id);
            
             return View(model);
         }

@@ -1,0 +1,47 @@
+﻿@model List<Schedule>
+@{
+    Layout = "_DoctorLayout";
+
+}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">My Schedule</h5>
+        <form method="post" asp-controller="Doctor" asp-action="Schedule">
+            <ul class="list-group mb-2">
+
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <li class="list-group-item">
+                        <input asp-for="@Model[i].DoctorId" type="hidden" />
+                        <input asp-for="@Model[i].ScheduleId" type="hidden" />
+                        <input asp-for="@Model[i].StartTime" type="hidden" />
+                        <input asp-for="@Model[i].EndTime" type="hidden" />
+                        <input asp-for="@Model[i].Interval" type="hidden" />
+                        <input asp-for="@Model[i].DayOfWeek" type="hidden" />
+                        <input asp-for="@Model[i].IsWorkingDay" id="@(Model[i].ScheduleId)" class="form-check-input me-1" type="checkbox" value="@Model[i].IsWorkingDay.ToString()" checked="@Model[i].IsWorkingDay" />
+                        <div class="ms-2 me-auto d-inline-block">
+                            <div class="fw-bold">@Model[i].DayOfWeek</div>
+                            @Model[i].StartTime.ToString("hh\\:mm") - @Model[i].EndTime.ToString("hh\\:mm")
+                        </div>
+                    </li>
+                }
+            </ul>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    let boxes = document.querySelectorAll(".form-check-input");
+    boxes.forEach((item) => {
+        item.addEventListener('click', () => {
+            if (item.value == "False") {
+                item.value = "True";
+            } 
+            else {
+                item.value = "False";
+            }
+        });
+    });
+</script>

@@ -11,7 +11,9 @@ namespace DoctorAppointmentSystem.Entity
         public int Id { get; set; }
 		public int DoctorId { get; set; }
 		public Doctor? doctor { get; set; }
-		public DateTime Date { get; set; }
-		public TimeSpan? Interval { get; set; }
+		public DateTime StartDate { get; set; }
+		public DateTime EndDate { get; set; }
+        public string Reason { get; set; }
+        public TimeSpan? Interval { get; set; }
 	}
 }

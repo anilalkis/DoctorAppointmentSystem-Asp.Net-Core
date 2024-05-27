@@ -1,0 +1,33 @@
+﻿@model DayOff
+@{
+    Layout = "_DoctorLayout";
+}
+
+<div class="card alert alert-secondary">
+    <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">Requesting Permission</h5>
+        <form method="post" asp-controller="Doctor" asp-action="LeaveRequest">
+            <div class="row g-2">
+                <div class="col-md">
+                    <div class="form-floating mb-3">
+                        <input asp-for="@Model.StartDate" type="date" class="form-control bg-white" id="floatingInput" placeholder="Date">
+                        <label for="floatingInput">Start Date</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating mb-3">
+                        <input asp-for="@Model.EndDate" type="date" class="form-control bg-white" id="floatingInput" placeholder="Date">
+                        <label for="floatingInput">End Date</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+              <textarea asp-for="@Model.Reason" class="form-control" placeholder="Reason" id="floatingTextarea2" style="height: 200px;background:white;"></textarea>
+                <label for="floatingTextarea2">Reason for Leave</label>
+            </div>
+            <button class="btn btn-primary w-100" type="submit">Take a Permission</button>
+        </form>
+    </div>
+</div>
+
+
