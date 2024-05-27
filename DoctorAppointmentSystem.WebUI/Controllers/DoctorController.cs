@@ -1,9 +1,12 @@
 ﻿using DoctorAppointmentSystem.Data.Abstract;
 using DoctorAppointmentSystem.Entity;
+using DoctorAppointmentSystem.WebUI.EmailServices;
 using DoctorAppointmentSystem.WebUI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Numerics;
 
 namespace DoctorAppointmentSystem.WebUI.Controllers
 {
@@ -15,10 +18,11 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         private IDoctorDal _doctorDal;
         private IScheduleDal _scheduleDal;
         private IDayOffDal _dayOffDal;
+        private IEmailService _emailService;
         private readonly UserManager<AppUser> _userManager;
 
 
-        public DoctorController(IPatientDal patientDal, IAppointmentDal appointmentDal, IDoctorDal doctorDal, IScheduleDal scheduleDal, UserManager<AppUser> userManager, IDayOffDal dayOffDal)
+        public DoctorController(IPatientDal patientDal, IAppointmentDal appointmentDal, IDoctorDal doctorDal, IScheduleDal scheduleDal, UserManager<AppUser> userManager, IDayOffDal dayOffDal, IEmailService emailService)
         {
             _patientDal = patientDal;
             _appointmentDal = appointmentDal;
@@ -26,6 +30,7 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
             _scheduleDal = scheduleDal;
             _userManager = userManager;
             _dayOffDal = dayOffDal;
+            _emailService = emailService;
 
         }
         public IActionResult Index()
@@ -142,13 +147,11 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
             dayOff.IsApproved = State.Waiting;
             _dayOffDal.Create(dayOff);
 
-            return View();
+            return RedirectToAction("OffDays");
         }
 
         public IActionResult OffDays()
         {
-            
-
             string? UserEmail = _userManager.GetUserName(User);
 
             if (UserEmail == null)
@@ -189,7 +192,7 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         [HttpPost]
         public IActionResult UpdateStatus(int AppointmentId, State isApproved)
         {
-            var appointment = _appointmentDal.GetById(AppointmentId);
+            var appointment = _appointmentDal.GetAppointmentById(AppointmentId);
 
             if(appointment == null)
             {
@@ -200,17 +203,15 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
             {
                 appointment.IsApproved = State.Approved;
                 TempData["ConfirmMessage"] = "appointment confirmed.";
-
+                _emailService.Execute("anilalkis86@gmail.com", "Appointment Confirmed",$"Dear {appointment.Patient.FullName},\n\nYour appointment has been confirmed. Detailed information is added below.\n\nAppointment Date: {appointment.DateTime.ToShortTimeString()}\n\nAppointment Time: {appointment.DateTime.ToLongDateString()}\n\nDoctor Name: {appointment.Doctor.FullName}\n \nAppointment Status: {appointment.IsApproved.ToString()}\n\nWe wish you a good day.\n\nMedisen");
             }
             else
             {
                 appointment.IsApproved = State.NotApproved;
                 TempData["CancelMessage"] = "appointment has been cancelled.";
-            } 
-
-
+                _emailService.Execute("anilalkis86@gmail.com", "Appointment Confirmed", $"Dear {appointment.Patient.FullName},\n\nYour appointment could not be confirmed. Detailed information is added below.\n\nAppointment Date: {appointment.DateTime.ToShortTimeString()}\n\nAppointment Time: {appointment.DateTime.ToLongDateString()}\n\nDoctor Name: {appointment.Doctor.FullName}\n \nAppointment Status: {appointment.IsApproved.ToString()}\n\nWe wish you a good day.\n\nMedisen");
+            }
             _appointmentDal.Update(appointment);
-
             return RedirectToAction("AppointmentList");
         }
 

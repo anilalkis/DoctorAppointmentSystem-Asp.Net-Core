@@ -1,5 +1,6 @@
 ﻿using DoctorAppointmentSystem.Data.Abstract;
 using DoctorAppointmentSystem.Entity;
+using DoctorAppointmentSystem.WebUI.EmailServices;
 using DoctorAppointmentSystem.WebUI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +15,12 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         private IAppointmentDal _appointmentDal;
         private IDoctorDal _doctorDal;
         private IScheduleDal _scheduleDal;
+        private IDayOffDal _dayOffDal;
+        private IEmailService _emailService;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
 
-        public AdminController(IPatientDal patientDal, IAppointmentDal appointmentDal, IDoctorDal doctorDal, IScheduleDal scheduleDal, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+        public AdminController(IPatientDal patientDal, IAppointmentDal appointmentDal, IDoctorDal doctorDal, IScheduleDal scheduleDal, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IDayOffDal dayOffDal, IEmailService emailService)
         {
             _patientDal = patientDal;
             _appointmentDal = appointmentDal;
@@ -25,6 +28,8 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
             _scheduleDal = scheduleDal;
             _userManager = userManager;
             _roleManager = roleManager;
+            _dayOffDal = dayOffDal;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -275,6 +280,49 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
             await _userManager.DeleteAsync(user);
 
             return RedirectToAction("PatientList");
+        }
+
+        public IActionResult LeaveRequests()
+        {
+            var days = _dayOffDal.GetAllByDoctor();
+
+            return View(days);
+        }
+
+        [HttpPost]
+        public IActionResult LeaveRequests(int id, int doctorId, State isApproved)
+        {
+            var offDay = _dayOffDal.GetById(id);
+            if (offDay == null) 
+            {
+                return NotFound();
+            }
+
+            if (isApproved == State.Approved)
+            {
+                offDay.IsApproved = State.Approved;
+                TempData["ConfirmMessage"] = "appointment confirmed.";
+                _dayOffDal.Update(offDay);
+                var apps = _appointmentDal.GetAppointmentsWithDoctorId(doctorId)
+                .Where(i => i.DateTime >= DateTime.Now).ToList();
+
+                foreach (var item in apps)
+                {
+                    if ((offDay.StartDate <= item.DateTime) && (item.DateTime <= offDay.EndDate))
+                    {
+                        _appointmentDal.Delete(item);
+                        _emailService.Execute("anilalkis86@gmail.com", "Canceled Appointment", $"Dear {item.Patient.FullName},\n\n The appointment has been canceled due to doctor's leave. Detailed information is added below.\n\n Appointment Date:{item.DateTime.ToShortTimeString()} \n\n Appointment Time: {item.DateTime.ToLongDateString()}\n\n Doctor Name: {item.Doctor.FullName}\n\n Appointment Status: {offDay.IsApproved.ToString()}\n\n We wish you a good day.\n\n Medisen\"");
+                    }
+                }
+            }
+            
+            offDay.IsApproved = State.NotApproved;
+            TempData["CancelMessage"] = "appointment has been cancelled.";
+            _dayOffDal.Delete(offDay);
+            
+            var days = _dayOffDal.GetAllByDoctor();
+
+            return View(days);
         }
     }
 }

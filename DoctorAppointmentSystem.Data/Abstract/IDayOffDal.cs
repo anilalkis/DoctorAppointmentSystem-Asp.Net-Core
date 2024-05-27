@@ -10,5 +10,6 @@ namespace DoctorAppointmentSystem.Data.Abstract
     public interface IDayOffDal : IRepository<DayOff>
     {
         List<DayOff> GetDaysByDoctorId(int id);
+        List<DayOff> GetAllByDoctor();
     }
 }

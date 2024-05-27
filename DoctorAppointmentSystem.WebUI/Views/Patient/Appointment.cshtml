@@ -16,11 +16,14 @@
     List<DateTime> offDays = new List<DateTime>();
     foreach (var dayoff in Model.daysOff)
     {
-        DateTime current = dayoff.StartDate;
-        while (current <= dayoff.EndDate)
+        if(dayoff.IsApproved != State.Approved)
         {
-            offDays.Add(current);
-            current = current.AddDays(1);
+            DateTime current = dayoff.StartDate;
+            while (current <= dayoff.EndDate)
+            {
+                offDays.Add(current);
+                current = current.AddDays(1);
+            }
         }
     }
 

@@ -1,0 +1,102 @@
+﻿@model List<DayOff>
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="card alert alert-secondary">
+    <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">Requests</h5>
+        <div class="homepage-bookings">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Doctor</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Approval Status</th>
+                        <th scope="col">Update</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        @if(Model[i].StartDate > DateTime.Now)
+                        {
+                            <tr >
+                                <th scope="row">@Model[i].Id</th>
+                                <td>
+                                    <a class="d-flex align-items-center" asp-controller="Doctor" asp-action="PatientProfile" asp-route-id="@Model[i].DoctorId">
+                                        <h6 class="fw-semibold mb-1 mx-2">@Model[i].doctor.FullName</h6>
+                                        <button style="padding:4px" class="btn btn-outline-secondary btn-sm">></button>
+                                    </a>
+                                </td>
+                                <td>@Model[i].doctor.Email</td>
+                                <td>@Model[i].StartDate.ToShortDateString()</td>
+                                <td>@Model[i].EndDate.ToShortDateString()</td>
+                                @if (Model[i].IsApproved == State.Approved)
+                                {
+                                    <td>
+                                        <span class="badge bg-success rounded-3 fw-semibold">Approved</span>
+                                    </td>
+                                    <td>
+                                        <form action="/Admin/LeaveRequests" method="post" style="display:inline;">
+                                            <input type="hidden" name="Id" value="@Model[i].Id" />
+                                            <input type="hidden" name="doctorId" value="@Model[i].DoctorId" />
+                                            <input type="hidden" name="isApproved" value="NotApproved" />
+                                            <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                                        </form>
+                                    </td>
+                                }
+                                else if (Model[i].IsApproved == State.NotApproved)
+                                {
+                                    <td>
+                                        <span class="badge bg-danger rounded-3 fw-semibold">Not Approved</span>
+                                    </td>
+                                    <td>
+                                        <form action="/Admin/LeaveRequests" method="post" style="display:inline;">
+                                            <input type="hidden" name="Id" value="@Model[i].Id" />
+                                            <input type="hidden" name="doctorId" value="@Model[i].DoctorId" />
+                                            <input type="hidden" name="isApproved" value="Approved" />
+                                            <button type="submit" class="btn btn-success btn-sm">Confirm</button>
+                                        </form>
+                                    </td>
+                                }
+                                else if (Model[i].IsApproved == State.Waiting)
+                                {
+                                    <td>
+                                        <span class="badge bg-warning rounded-3 fw-semibold">Waiting</span>
+                                    </td>
+                                    <td class="d-flex">
+                                        <form action="/Admin/LeaveRequests" method="post">
+                                            <input type="hidden" name="Id" value="@Model[i].Id" />
+                                            <input type="hidden" name="doctorId" value="@Model[i].DoctorId" />
+                                            <input type="hidden" name="isApproved" value="Approved" />
+                                            <button type="submit" class="btn btn-success btn-sm">Confirm</button>
+                                        </form>
+                                        <form action="/Admin/LeaveRequests" method="post">
+                                            <input type="hidden" name="Id" value="@Model[i].Id" />
+                                            <input type="hidden" name="doctorId" value="@Model[i].DoctorId" />
+                                            <input type="hidden" name="isApproved" value="NotApproved" />
+                                            <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                                        </form>
+                                    </td>
+                                }
+                                <td data-bs-toggle="collapse" href="#Collapse@(Model[i].Id.ToString())" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-caret-down"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M6 10l6 6l6 -6h-12" /></svg>
+                                </td>
+
+                            </tr>
+                            <tr class="collapse multi-collapse" id="Collapse@(Model[i].Id.ToString())">
+                                <td colspan="8">
+                                    <textarea class="w-100" style="height:100px; " disabled>@Model[i].Reason</textarea>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

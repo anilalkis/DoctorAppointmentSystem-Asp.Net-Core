@@ -115,7 +115,7 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
             appointment.IsApproved = State.Waiting;
             appointment.Note = " ";
 
-            _emailSender.Execute("anilalkis86@gmail.com", "Appointment Information", $"Sayýn {patient.FullName},\n\nRandevu talebiniz alýnmýþtýr. Detaylý bilgi aþaðýda eklenmiþtir.\n\n  Randevu Tarihi:{appointment.DateTime.ToShortTimeString()} \n\n Randevu Saati: {appointment.DateTime.ToLongDateString()}\n\n    Doktor Adý: {doctor.FullName}\n\n    Randevu Durumu: Not Approved\n\n Ýyi günler dileriz.\n \nMedisen");
+            _emailSender.Execute("anilalkis86@gmail.com", "Appointment Information", $"Dear {patient.FullName},\n\nYour appointment request has been received. Detailed information is added below.\n\n Appointment Date: {appointment.DateTime.ToShortTimeString()} \n\n Appointment Time: {appointment.DateTime.ToLongDateString()}\n\nDoctor Name: {doctor.FullName}\n\nAppointment Status: Waiting\n\nWe wish you a good day.\n\nMedisen");
             _appointmentDal.Create(appointment);
 
             return RedirectToAction("Index");

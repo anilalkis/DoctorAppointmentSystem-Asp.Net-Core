@@ -30,6 +30,7 @@ namespace DoctorAppointmentSystem.Data.Concrete.EfCore
                 return context.Appointments
                     .Where(i => i.DoctorId == id)
                     .Include(i => i.Patient)
+                    .Include(i => i.Doctor)
                     .OrderBy(i => i.DateTime)
                     .ToList();
             }

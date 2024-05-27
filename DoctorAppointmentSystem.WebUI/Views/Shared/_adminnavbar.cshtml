@@ -70,12 +70,28 @@
                 </ul>
             </div>
         </li>
+        <li class="nav-small-cap">
+            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <span class="hide-menu">Requests</span>
+        </li>
+        <li class="sidebar-item">
+            <a asp-controller="Admin" asp-action="LeaveRequests" class="sidebar-link" aria-expanded="false">
+                <span>
+                    <i class="ti ti-calendar-question"></i>
+                </span>
+                <span class="hide-menu">Leave Requests</span>
+            </a>
+        </li>
+        <li class="nav-small-cap">
+            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <span class="hide-menu">Log Out</span>
+        </li>
         <li class="sidebar-item">
             <a asp-controller="Login" asp-action="Logout" class="sidebar-link alert alert-secondary" aria-expanded="false">
                 <span>
                     <i class="ti ti-logout"></i>
                 </span>
-                <span class="hide-menu">Logout</span>
+                <span class="hide-menu">Log out</span>
             </a>
         </li>
     </ul>
