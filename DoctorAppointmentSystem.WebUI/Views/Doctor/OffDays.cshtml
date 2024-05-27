@@ -12,6 +12,18 @@
             {
                 <div class="card mt-3 p-0">
                     <div class="card-header d-flex align-items-center justify-content-between" data-bs-toggle="collapse" href="#Collapse@(item.Id.ToString())" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+                        @if (item.IsApproved == State.Approved)
+                        {
+                            <span class="badge bg-success rounded-3 fw-semibold">Approved</span>
+                        }
+                        else if (item.IsApproved == State.NotApproved)
+                        {
+                            <span class="badge bg-danger rounded-3 fw-semibold">Not Approved</span>
+                        }
+                        else if (item.IsApproved == State.Waiting)
+                        {
+                            <span class="badge bg-warning rounded-3 fw-semibold">Waiting</span>
+                        }
                         <span>
                             <b>Date:</b> @item.StartDate.ToShortDateString() - @item.EndDate.ToShortDateString()
                         </span>

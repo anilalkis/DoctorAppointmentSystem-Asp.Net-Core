@@ -34,14 +34,20 @@
                                 <td>@appointment.Patient.Phone</td>
                                 <td>@appointment.Patient.Age</td>
                                 <td>@appointment.DateTime.ToLongDateString()-@appointment.DateTime.ToShortTimeString()</td>
-                                @if (appointment.IsApproved)
-                                {
-                                    <td class="text-success"> Approved</td>
-                                }
-                                else
-                                {
-                                    <td class="text-danger"> Not Approved</td>
-                                }
+                                <td>
+                                    @if (appointment.IsApproved == State.Approved)
+                                    {
+                                        <span class="badge bg-success rounded-3 fw-semibold">Approved</span>
+                                    }
+                                    else if (appointment.IsApproved == State.NotApproved)
+                                    {
+                                        <span class="badge bg-danger rounded-3 fw-semibold">Not Approved</span>
+                                    }
+                                    else if (appointment.IsApproved == State.Waiting)
+                                    {
+                                        <span class="badge bg-warning rounded-3 fw-semibold">Waiting</span>
+                                    }
+                                </td>
                                 <td>
                                     <a class="btn btn-secondary btn-sm" asp-controller="Doctor" asp-action="AppointmentDetails" asp-route-id="@appointment.AppointmentId">Details</a>
                                 </td>

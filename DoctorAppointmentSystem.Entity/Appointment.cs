@@ -10,7 +10,7 @@ namespace DoctorAppointmentSystem.Entity
     {
         public int AppointmentId { get; set; }
         public DateTime DateTime { get; set; }
-        public bool IsApproved { get; set; }
+        public State IsApproved { get; set; }
         public int PatientId { get; set; }
         public Patient Patient { get; set; }
         public int DoctorId { get; set; }
@@ -19,4 +19,5 @@ namespace DoctorAppointmentSystem.Entity
         public DateTime CreatedDate { get; set; }
 
     }
+
 }

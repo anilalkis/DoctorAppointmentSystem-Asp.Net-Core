@@ -13,7 +13,15 @@ namespace DoctorAppointmentSystem.Entity
 		public Doctor? doctor { get; set; }
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
-        public string Reason { get; set; }
+        public string? Reason { get; set; }
         public TimeSpan? Interval { get; set; }
+		public State IsApproved { get; set; }
+	}
+
+	public enum State
+	{
+		Waiting = 0,
+		NotApproved = 1,
+		Approved = 2
 	}
 }

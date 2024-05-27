@@ -112,10 +112,10 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
             appointment.DateTime = DateTime.Parse(date);
             appointment.PatientId = patientId;
             appointment.DoctorId = doctorId;
-            appointment.IsApproved = false;
+            appointment.IsApproved = State.Waiting;
             appointment.Note = " ";
 
-            _emailSender.Execute("anilalkis86@gmail.com", "Appointment", $"Merhaba {patient.FullName},\n\nRandevu talebiniz alýnmýþtýr. Detaylý bilgi aþaðýda eklenmiþtir.\n\n  Randevu Tarihi:{appointment.DateTime.ToShortTimeString()} \n\n Randevu Saati: {appointment.DateTime.ToLongDateString()}\n\n    Doktor Adý: {doctor.FullName}\n\n    Randevu Durumu: Not Approved\n\n Ýyi günler dileriz.\n \nMedisen");
+            _emailSender.Execute("anilalkis86@gmail.com", "Appointment Information", $"Sayýn {patient.FullName},\n\nRandevu talebiniz alýnmýþtýr. Detaylý bilgi aþaðýda eklenmiþtir.\n\n  Randevu Tarihi:{appointment.DateTime.ToShortTimeString()} \n\n Randevu Saati: {appointment.DateTime.ToLongDateString()}\n\n    Doktor Adý: {doctor.FullName}\n\n    Randevu Durumu: Not Approved\n\n Ýyi günler dileriz.\n \nMedisen");
             _appointmentDal.Create(appointment);
 
             return RedirectToAction("Index");

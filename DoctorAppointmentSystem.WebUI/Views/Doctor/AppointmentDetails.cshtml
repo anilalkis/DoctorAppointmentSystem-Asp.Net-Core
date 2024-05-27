@@ -8,13 +8,17 @@
         <h1 style="font-size:28px" class="card-title fw-semibold mb-4">Appointment Details</h1>
         <p class="mb-1"><b>Date:</b>@Model.DateTime.ToString()</p>
         <p class="mb-1"><b>Doctor:</b>@Model.Doctor.FullName</p>
-        @if (Model.IsApproved)
+        @if (Model.IsApproved == State.Approved)
         {
-            <p class="text-success fw-larger"> Approved</p>
+            <span class="badge bg-success rounded-3 fw-semibold">Approved</span>
         }
-        else
+        else if (Model.IsApproved == State.NotApproved)
         {
-            <p class="text-danger"> Not Approved</p>
+            <span class="badge bg-danger rounded-3 fw-semibold">Not Approved</span>
+        }
+        else if (Model.IsApproved == State.Waiting)
+        {
+            <span class="badge bg-warning rounded-3 fw-semibold">Waiting</span>
         }
         <hr />
         <br/>

@@ -84,19 +84,18 @@
                                         <p class="mb-0 fw-normal">@appointment.DateTime.ToLongDateString()</p>
                                     </td>
                                     <td class="border-bottom-0">
-                                        @if (appointment.IsApproved)
-                                        {
-                                            <div class="d-flex align-items-center gap-2">
+                                            @if (appointment.IsApproved == State.Approved)
+                                            {
                                                 <span class="badge bg-success rounded-3 fw-semibold">Approved</span>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="d-flex align-items-center gap-2">
+                                            }
+                                            else if (appointment.IsApproved == State.NotApproved)
+                                            {
                                                 <span class="badge bg-danger rounded-3 fw-semibold">Not Approved</span>
-                                            </div>
-                                        }
-
+                                            }
+                                            else if (appointment.IsApproved == State.Waiting)
+                                            {
+                                                <span class="badge bg-warning rounded-3 fw-semibold">Waiting</span>
+                                            }
                                     </td>
                                 </tr>
                                 }

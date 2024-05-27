@@ -11,7 +11,25 @@
     if (appointment.DateTime > DateTime.Now)
     {
         <div class="card alert alert-secondary">
-            <div class="card-header text-center fw-bold">@appointment.DateTime.ToShortDateString() - @appointment.DateTime.DayOfWeek.ToString()</div>
+            <div class="card-header fw-bold d-flex justify-content-between">
+                <span>
+                    @appointment.DateTime.ToShortDateString() - @appointment.DateTime.DayOfWeek.ToString()
+                </span>
+                <span>
+                    @if (appointment.IsApproved == State.Approved)
+                    {
+                        <span class="badge bg-success rounded-3 fw-semibold">Approved</span>
+                    }
+                    else if (appointment.IsApproved == State.NotApproved)
+                    {
+                        <span class="badge bg-danger rounded-3 fw-semibold">Not Approved</span>
+                    }
+                    else if (appointment.IsApproved == State.Waiting)
+                    {
+                        <span class="badge bg-warning rounded-3 fw-semibold">Waiting</span>
+                    }
+                </span>
+            </div>
             <div class="card-body">
                 <p class="mb-0">Booking Date: ###</p>
                 <h4 class="card-title fw-semibold my-4">@appointment.Doctor.FullName</h4>

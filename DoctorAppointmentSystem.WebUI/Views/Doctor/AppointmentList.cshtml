@@ -6,94 +6,94 @@
     StringBuilder upcoming = new StringBuilder();
     StringBuilder past = new StringBuilder();
 
-    foreach (var appointment in Model)
-    {
-        if (appointment.DateTime == DateTime.Now)
-        {
-            todays.AppendLine("<tr>");
-            todays.AppendLine("<th scope='row'>"+@appointment.AppointmentId+"</th>");
-            todays.AppendLine("<td>"+@appointment.Patient.FullName+"</td>");
-            todays.AppendLine("<td>"+@appointment.Patient.Phone+"</td>");
-            todays.AppendLine("<td>"+@appointment.Patient.Age+"</td>");
-            todays.AppendLine("<td>"+@appointment.DateTime.ToLongDateString()+"-"+@appointment.DateTime.ToShortTimeString()+"</td>");
-            @if (appointment.IsApproved)
-            {
-                todays.AppendLine("<td class='text-success'>Approved</td>");
-                todays.AppendLine("<td>");
-                todays.AppendLine("<form action='/Doctor/UpdateStatus' method='post' style='display: inline; '>");
-                todays.AppendLine("<input type='hidden' name='AppointmentId' value='"+@appointment.AppointmentId+"' />");
-                todays.AppendLine("<button type='submit' class='btn btn-danger btn-sm'>Cancel Appointment</button>");
-                todays.AppendLine("</form>");
-                todays.AppendLine("<td>");
+    // foreach (var appointment in Model)
+    // {
+    //     if (appointment.DateTime == DateTime.Now)
+    //     {
+    //         todays.AppendLine("<tr>");
+    //         todays.AppendLine("<th scope='row'>"+@appointment.AppointmentId+"</th>");
+    //         todays.AppendLine("<td>"+@appointment.Patient.FullName+"</td>");
+    //         todays.AppendLine("<td>"+@appointment.Patient.Phone+"</td>");
+    //         todays.AppendLine("<td>"+@appointment.Patient.Age+"</td>");
+    //         todays.AppendLine("<td>"+@appointment.DateTime.ToLongDateString()+"-"+@appointment.DateTime.ToShortTimeString()+"</td>");
+    //         @if (appointment.IsApproved)
+    //         {
+    //             todays.AppendLine("<td class='text-success'>Approved</td>");
+    //             todays.AppendLine("<td>");
+    //             todays.AppendLine("<form action='/Doctor/UpdateStatus' method='post' style='display: inline; '>");
+    //             todays.AppendLine("<input type='hidden' name='AppointmentId' value='"+@appointment.AppointmentId+"' />");
+    //             todays.AppendLine("<button type='submit' class='btn btn-danger btn-sm'>Cancel Appointment</button>");
+    //             todays.AppendLine("</form>");
+    //             todays.AppendLine("<td>");
 
-            }
-            else
-            {
-                todays.AppendLine("<td class='text-danger'>Not Approved</td>");
-                todays.AppendLine("<td>");
-                todays.AppendLine("<form action='/Doctor/UpdateStatus' method='post' style='display: inline; '>");
-                todays.AppendLine("<input type='hidden' name='AppointmentId' value='"+@appointment.AppointmentId+"' />");
-                todays.AppendLine("<button type='submit' class='btn btn-success btn-sm'>Confirm Appointment</button>");
-                todays.AppendLine("</form>");
-                todays.AppendLine("<td>");
-            }
-            todays.AppendLine("</tr>");
-        }
-        if (appointment.DateTime < DateTime.Now)
-        {
-            upcoming.AppendLine("<tr>");
-            upcoming.AppendLine("<th scope='row'>" + @appointment.AppointmentId + "</th>");
-            upcoming.AppendLine("<td>" + @appointment.Patient.FullName + "</td>");
-            upcoming.AppendLine("<td>" + @appointment.Patient.Phone + "</td>");
-            upcoming.AppendLine("<td>" + @appointment.Patient.Age + "</td>");
-            upcoming.AppendLine("<td>" + @appointment.DateTime.ToLongDateString() + "-" + @appointment.DateTime.ToShortTimeString() + "</td>");
-            @if (appointment.IsApproved)
-            {
-                upcoming.AppendLine("<td class='text-success'>Approved</td>");
-                upcoming.AppendLine("<td>");
-                upcoming.AppendLine("<form action='/Doctor/UpdateStatus' method='post' style='display: inline; '>");
-                upcoming.AppendLine("<input type='hidden' name='AppointmentId' value='"+@appointment.AppointmentId+"' />");
-                upcoming.AppendLine("<button type='submit' class='btn btn-danger btn-sm'>Cancel Appointment</button>");
-                upcoming.AppendLine("</form>");
-                upcoming.AppendLine("<td>");
+    //         }
+    //         else
+    //         {
+    //             todays.AppendLine("<td class='text-danger'>Not Approved</td>");
+    //             todays.AppendLine("<td>");
+    //             todays.AppendLine("<form action='/Doctor/UpdateStatus' method='post' style='display: inline; '>");
+    //             todays.AppendLine("<input type='hidden' name='AppointmentId' value='"+@appointment.AppointmentId+"' />");
+    //             todays.AppendLine("<button type='submit' class='btn btn-success btn-sm'>Confirm Appointment</button>");
+    //             todays.AppendLine("</form>");
+    //             todays.AppendLine("<td>");
+    //         }
+    //         todays.AppendLine("</tr>");
+    //     }
+    //     if (appointment.DateTime < DateTime.Now)
+    //     {
+    //         upcoming.AppendLine("<tr>");
+    //         upcoming.AppendLine("<th scope='row'>" + @appointment.AppointmentId + "</th>");
+    //         upcoming.AppendLine("<td>" + @appointment.Patient.FullName + "</td>");
+    //         upcoming.AppendLine("<td>" + @appointment.Patient.Phone + "</td>");
+    //         upcoming.AppendLine("<td>" + @appointment.Patient.Age + "</td>");
+    //         upcoming.AppendLine("<td>" + @appointment.DateTime.ToLongDateString() + "-" + @appointment.DateTime.ToShortTimeString() + "</td>");
+    //         @if (appointment.IsApproved)
+    //         {
+    //             upcoming.AppendLine("<td class='text-success'>Approved</td>");
+    //             upcoming.AppendLine("<td>");
+    //             upcoming.AppendLine("<form action='/Doctor/UpdateStatus' method='post' style='display: inline; '>");
+    //             upcoming.AppendLine("<input type='hidden' name='AppointmentId' value='"+@appointment.AppointmentId+"' />");
+    //             upcoming.AppendLine("<button type='submit' class='btn btn-danger btn-sm'>Cancel Appointment</button>");
+    //             upcoming.AppendLine("</form>");
+    //             upcoming.AppendLine("<td>");
 
-            }
-            else
-            {
-                upcoming.AppendLine("<td class='text-danger'>Not Approved</td>");
-                upcoming.AppendLine("<td>");
-                upcoming.AppendLine("<form action='/Doctor/UpdateStatus' method='post' style='display: inline; '>");
-                upcoming.AppendLine("<input type='hidden' name='AppointmentId' value='"+@appointment.AppointmentId+"' />");
-                upcoming.AppendLine("<button type='submit' class='btn btn-success btn-sm'>Confirm Appointment</button>");
-                upcoming.AppendLine("</form>");
-                upcoming.AppendLine("<td>");
-            }
-            upcoming.AppendLine("</tr>");
-        }
-        if (appointment.DateTime > DateTime.Now)
-        {
-            past.AppendLine("<tr>");
-            past.AppendLine("<th scope='row'>" + @appointment.AppointmentId + "</th>");
-            past.AppendLine("<td>" + @appointment.Patient.FullName + "</td>");
-            past.AppendLine("<td>" + @appointment.Patient.Phone + "</td>");
-            past.AppendLine("<td>" + @appointment.Patient.Age + "</td>");
-            past.AppendLine("<td>" + @appointment.DateTime.ToLongDateString() + "-" + @appointment.DateTime.ToShortTimeString() + "</td>");
-            @if (appointment.IsApproved)
-            {
-                past.AppendLine("<td class='text-success'>Approved</td>");
+    //         }
+    //         else
+    //         {
+    //             upcoming.AppendLine("<td class='text-danger'>Not Approved</td>");
+    //             upcoming.AppendLine("<td>");
+    //             upcoming.AppendLine("<form action='/Doctor/UpdateStatus' method='post' style='display: inline; '>");
+    //             upcoming.AppendLine("<input type='hidden' name='AppointmentId' value='"+@appointment.AppointmentId+"' />");
+    //             upcoming.AppendLine("<button type='submit' class='btn btn-success btn-sm'>Confirm Appointment</button>");
+    //             upcoming.AppendLine("</form>");
+    //             upcoming.AppendLine("<td>");
+    //         }
+    //         upcoming.AppendLine("</tr>");
+    //     }
+    //     if (appointment.DateTime > DateTime.Now)
+    //     {
+    //         past.AppendLine("<tr>");
+    //         past.AppendLine("<th scope='row'>" + @appointment.AppointmentId + "</th>");
+    //         past.AppendLine("<td>" + @appointment.Patient.FullName + "</td>");
+    //         past.AppendLine("<td>" + @appointment.Patient.Phone + "</td>");
+    //         past.AppendLine("<td>" + @appointment.Patient.Age + "</td>");
+    //         past.AppendLine("<td>" + @appointment.DateTime.ToLongDateString() + "-" + @appointment.DateTime.ToShortTimeString() + "</td>");
+    //         @if (appointment.IsApproved)
+    //         {
+    //             past.AppendLine("<td class='text-success'>Approved</td>");
 
-            }
-            else
-            {
-                past.AppendLine("<td class='text-danger'>Not Approved</td>");
-            }
-            past.AppendLine("</tr>");
-        }
-    }
+    //         }
+    //         else
+    //         {
+    //             past.AppendLine("<td class='text-danger'>Not Approved</td>");
+    //         }
+    //         past.AppendLine("</tr>");
+    //     }
+    // }
 
-    var todaystable = todays.ToString();
-    var upcomingtable = upcoming.ToString();
-    var pasttable = past.ToString();
+    // var todaystable = todays.ToString();
+    // var upcomingtable = upcoming.ToString();
+    // var pasttable = past.ToString();
 }
 
 @* <div id="alertMessage" class="alert alert-warning alert-dismissible fade" role="alert">
@@ -132,13 +132,17 @@
                                 <td>@appointment.Patient.Phone</td>
                                 <td>@appointment.Patient.Age</td>
                                 <td>@appointment.DateTime.ToLongDateString()-@appointment.DateTime.ToShortTimeString()</td>
-                                @if (appointment.IsApproved)
+                                @if (appointment.IsApproved == State.Approved)
                                 {
-                                    <td class="text-success"> Approved</td>
+                                    <span class="badge bg-success rounded-3 fw-semibold">Approved</span>
                                 }
-                                else
+                                else if (appointment.IsApproved == State.NotApproved)
                                 {
-                                    <td class="text-danger"> Not Approved</td>
+                                    <span class="badge bg-danger rounded-3 fw-semibold">Not Approved</span>
+                                }
+                                else if (appointment.IsApproved == State.Waiting)
+                                {
+                                    <span class="badge bg-warning rounded-3 fw-semibold">Waiting</span>
                                 }
                                 <td>
                                     <a class="btn btn-secondary btn-sm" asp-controller="Doctor" asp-action="AppointmentDetails" asp-route-id="@appointment.AppointmentId">Details</a>
@@ -184,23 +188,47 @@
                             <td>@appointment.Patient.Phone</td>
                             <td>@appointment.Patient.Age</td>
                             <td>@appointment.DateTime.ToLongDateString()-@appointment.DateTime.ToShortTimeString()</td>
-                            @if (appointment.IsApproved)
+                            @if (appointment.IsApproved == State.Approved)
                             {
-                                <td class="text-success"> Approved</td>
+                                <td>
+                                    <span class="badge bg-success rounded-3 fw-semibold">Approved</span>
+                                </td>
                                 <td>
                                     <form action="/Doctor/UpdateStatus" method="post" style="display:inline;">
                                         <input type="hidden" name="AppointmentId" value="@appointment.AppointmentId" />
-                                        <button type="submit" class="btn btn-danger btn-sm">Cancel Appointment</button>
+                                        <input type="hidden" name="isApproved" value="NotApproved" />
+                                        <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
                                     </form>
                                 </td>
                             }
-                            else
+                            else if (appointment.IsApproved == State.NotApproved)
                             {
-                                <td class="text-danger"> Not Approved</td>
+                                <td>
+                                    <span class="badge bg-danger rounded-3 fw-semibold">Not Approved</span>
+                                </td>
                                 <td>
                                     <form action="/Doctor/UpdateStatus" method="post" style="display:inline;">
                                         <input type="hidden" name="AppointmentId" value="@appointment.AppointmentId" />
-                                        <button type="submit" class="btn btn-success btn-sm">Confirm Appointment</button>
+                                        <input type="hidden" name="isApproved" value="Approved" />
+                                        <button type="submit" class="btn btn-success btn-sm">Confirm</button>
+                                    </form>
+                                </td>
+                            }
+                            else if (appointment.IsApproved == State.Waiting)
+                            {
+                                <td>
+                                    <span class="badge bg-warning rounded-3 fw-semibold">Waiting</span>
+                                </td>
+                                <td class="d-flex">
+                                    <form action="/Doctor/UpdateStatus" method="post" >
+                                        <input type="hidden" name="AppointmentId" value="@appointment.AppointmentId" />
+                                        <input type="hidden" name="isApproved" value="Approved" />
+                                        <button type="submit" class="btn btn-success btn-sm">Confirm</button>
+                                    </form>
+                                    <form action="/Doctor/UpdateStatus" method="post">
+                                        <input type="hidden" name="AppointmentId" value="@appointment.AppointmentId" />
+                                        <input type="hidden" name="isApproved" value="NotApproved" />
+                                        <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
                                     </form>
                                 </td>
                             }

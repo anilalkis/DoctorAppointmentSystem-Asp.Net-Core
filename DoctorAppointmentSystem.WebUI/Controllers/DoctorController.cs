@@ -139,6 +139,7 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
 
             var doctorid = _doctorDal.GetByUserEmail(UserEmail).DoctorId;
             dayOff.DoctorId = doctorid;
+            dayOff.IsApproved = State.Waiting;
             _dayOffDal.Create(dayOff);
 
             return View();
@@ -186,7 +187,7 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateStatus(int AppointmentId)
+        public IActionResult UpdateStatus(int AppointmentId, State isApproved)
         {
             var appointment = _appointmentDal.GetById(AppointmentId);
 
@@ -195,15 +196,15 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
                 return NotFound();
             }
             
-            if(appointment.IsApproved == false)
+            if(isApproved == State.Approved)
             {
-                appointment.IsApproved = true;
+                appointment.IsApproved = State.Approved;
                 TempData["ConfirmMessage"] = "appointment confirmed.";
 
             }
             else
             {
-                appointment.IsApproved = false;
+                appointment.IsApproved = State.NotApproved;
                 TempData["CancelMessage"] = "appointment has been cancelled.";
             } 
 

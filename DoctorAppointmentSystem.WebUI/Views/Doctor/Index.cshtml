@@ -73,19 +73,18 @@
                                             <p class="mb-0 fw-normal">@appointment.DateTime.ToLongDateString()-@appointment.DateTime.ToShortTimeString()</p>
                                         </td>
                                         <td class="border-bottom-0">
-                                            @if (appointment.IsApproved)
+                                            @if (appointment.IsApproved == State.Approved)
                                             {
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-success rounded-3 fw-semibold">Approved</span>
-                                                </div>
+                                                <span class="badge bg-success rounded-3 fw-semibold">Approved</span>
                                             }
-                                            else
+                                            else if (appointment.IsApproved == State.NotApproved)
                                             {
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-danger rounded-3 fw-semibold">Not Approved</span>
-                                                </div>
+                                                <span class="badge bg-danger rounded-3 fw-semibold">Not Approved</span>
                                             }
-
+                                            else if (appointment.IsApproved == State.Waiting)
+                                            {
+                                                <span class="badge bg-warning rounded-3 fw-semibold">Waiting</span>
+                                            }
                                         </td>
                                         <td>
                                             <a class="btn btn-secondary btn-sm" asp-controller="Doctor" asp-action="AppointmentDetails" asp-route-id="@appointment.AppointmentId">Details</a>
@@ -156,19 +155,18 @@
                                             <p class="mb-0 fw-normal">@appointment.DateTime.ToLongDateString()-@appointment.DateTime.ToShortTimeString()</p>
                                         </td>
                                         <td class="border-bottom-0">
-                                            @if (appointment.IsApproved)
+                                            @if (appointment.IsApproved == State.Approved)
                                             {
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-success rounded-3 fw-semibold">Approved</span>
-                                                </div>
+                                                <span class="badge bg-success rounded-3 fw-semibold">Approved</span>
                                             }
-                                            else
+                                            else if (appointment.IsApproved == State.NotApproved)
                                             {
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-danger rounded-3 fw-semibold">Not Approved</span>
-                                                </div>
+                                                <span class="badge bg-danger rounded-3 fw-semibold">Not Approved</span>
                                             }
-
+                                            else if (appointment.IsApproved == State.Waiting)
+                                            {
+                                                <span class="badge bg-warning rounded-3 fw-semibold">Waiting</span>
+                                            }
                                         </td>
                                         <td>
                                             <a class="btn btn-secondary btn-sm" asp-controller="Doctor" asp-action="AppointmentDetails" asp-route-id="@appointment.AppointmentId">Details</a>
