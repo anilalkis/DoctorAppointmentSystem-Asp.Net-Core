@@ -11,5 +11,8 @@ namespace DoctorAppointmentSystem.Data.Abstract
     {
         Patient GetPatientWithAppointment(int id);
         Patient GetByUserEmail(string UserEmail);
+        List<MonthlyPatientCount> GetMonthlyPatientCounts();
+        int GetPatientCountThisYear();
+        int GetPatientCountLastYear();
     }
 }

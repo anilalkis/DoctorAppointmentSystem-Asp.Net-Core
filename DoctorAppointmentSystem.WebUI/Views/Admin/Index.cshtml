@@ -1,84 +1,173 @@
 ﻿@model AdminDashboardViewModel
 @{
     Layout = "_AdminLayout";
+
+    List<int> appCount = [];
+    List<string> appMonths = [];
+
+    @foreach (var item in Model.monthlyAppointmentCounts)
+    {
+        appCount.Add(item.Count);
+        var appmonth = item.Month.ToString()+"/" + item.Year.ToString();
+        appMonths.Add(appmonth);
+
+    }
+
+    List<int> regCount = [];
+    List<string> regMonths = [];
+    @foreach (var item in Model.monthlyPatientCounts)
+    {
+        regCount.Add(item.Count);
+        var regmonth = item.Month.ToString() + "/" + item.Year.ToString();
+        regMonths.Add(regmonth);
+    }
+
+    double inc = (@Model.yearlyAppointmentCount.ThisYear - @Model.yearlyAppointmentCount.LastYear) / (@Model.yearlyAppointmentCount.LastYear) * (100);
 }
 
 <div class="row">
-    <div class="col-md-4">
-        <div class="card">
+    <div class="col-lg-8 d-flex align-items-strech">
+        <div class="card w-100">
             <div class="card-body">
+                <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                    <div class="mb-3 mb-sm-0">
+                        <h5 class="card-title fw-semibold">Overview</h5>
+                    </div>
+                </div>
+                <div id="chart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Yearly Appointment -->
+                <div class="card overflow-hidden">
+                    <div class="card-body p-4">
+                        <h5 class="card-title mb-9 fw-semibold">Annual Appointment Count</h5>
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h4 class="fw-semibold mb-3">@Model.yearlyAppointmentCount.ThisYear</h4>
+                                <div class="d-flex align-items-center mb-3">
+                                    @if (inc < 0)
+                                    {
+                                        <span class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-arrow-down-left text-danger"></i>
+                                        </span>
+                                        <p class="text-dark me-1 fs-3 mb-0">
+                                            @inc %
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <span class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-arrow-up-left text-success"></i>
+                                        </span>
+                                        <p class="text-dark me-1 fs-3 mb-0">
+                                            @inc %
+                                        </p>
+                                    }
+
+                                    <p class="fs-3 mb-0">last year</p>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-4">
+                                        <span class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
+                                        <span class="fs-2">@Model.yearlyAppointmentCount.ThisYear</span>
+                                    </div>
+                                    <div>
+                                        <span class="round-8 bg-light-primary rounded-circle me-2 d-inline-block"></span>
+                                        <span class="fs-2">@Model.yearlyAppointmentCount.LastYear</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="d-flex justify-content-center">
+                                    <div id="breakup"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <!-- Yearly Register -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row alig n-items-start">
+                            <div class="col-8">
+                                <h5 class="card-title mb-9 fw-semibold"> Yearly Register </h5>
+                                <h4 class="fw-semibold mb-3">@Model.yearlyPatientCount.ThisYear</h4>
+                                <div class="d-flex align-items-center pb-1">
+                                    <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                                        <i class="ti ti-arrow-down-right text-danger"></i>
+                                    </span>
+                                    <p class="text-dark me-1 fs-3 mb-0">+9%</p>
+                                    <p class="fs-3 mb-0">last year</p>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="d-flex justify-content-end">
+                                    <div class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                                        <i class="ti ti-user-hexagon fs-6"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="earning"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card" style="background:linear-gradient(to right, #ffefd2, #f4bc56 99%) !important">
+            <div class="card-body ">
+                <img src="/images/dashboard/circle.png" class="card-img-absolute" alt="circle-image" />
                 <h5 class="card-title fw-semibold mb-4">Doctors</h5>
                 <div class="row align-items-center mb-4">
                     <div class="col-8">
-                        <h1>@Model.doctors.Capacity</h1>
+                        <h1>@Model.doctors.Count</h1>
                     </div>
                     <div class="col-4">
-                        <i style="    color: #5D87FF;
-                                        font-size: 30px;
-                                        padding: 15px;
-                                        border: solid;
-                                        border-radius: 50px;"
-                           class="ti ti-users btn-primary w-100">
-                        </i>
+                       
                     </div>
                 </div>
-                <hr style="
-                        border-radius: 100px;
-                        border: solid 2px;
-                        border-color:#5D87FF;
-                        opacity:1" />
             </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card">
+        <div class="card" style="background: linear-gradient(to right, #dfe7ff, #678cfb 99%) !important">
             <div class="card-body">
+                <img src="/images/dashboard/circle.png" class="card-img-absolute" alt="circle-image" />
                 <h5 class="card-title fw-semibold mb-4">Totlal Patients</h5>
                 <div class="row align-items-center mb-4">
                     <div class="col-8">
-                        <h1>@Model.patients.Capacity</h1>
+                        <h1>@Model.patients.Count</h1>
                     </div>
                     <div class="col-4">
-                        <i style="    color: #00d12e;
-                                        font-size: 30px;
-                                        padding: 15px;
-                                        border: solid;
-                                        border-radius: 50px;"
-                           class="ti ti-users btn-primary w-100">
-                        </i>
+                      
                     </div>
                 </div>
-                <hr style="
-                        border-radius: 100px;
-                        border: solid 2px;
-                        border-color:#00d12e;
-                        opacity:1" />
             </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card">
+        <div class="card" style="background: linear-gradient(to right, #d0f8f1, #47ccb5 99%) !important">
             <div class="card-body">
+                <img src="/images/dashboard/circle.png" class="card-img-absolute" alt="circle-image" />
                 <h5 class="card-title fw-semibold mb-4">Appointments</h5>
                 <div class="row align-items-center mb-4">
                     <div class="col-8">
-                        <h1>@Model.appointments.Capacity</h1>
+                        <h1>@Model.appointments.Count</h1>
                     </div>
                     <div class="col-4">
-                        <i style="    color: #f41919;
-                                            font-size: 30px;
-                                            padding: 15px;
-                                            border: solid;
-                                            border-radius: 50px;"
-                           class="ti ti-users btn-primary w-100">
-                        </i>
+                      
                     </div>
                 </div>
-                <hr style="
-                            border-radius: 100px;
-                            border: solid 2px;
-                            border-color:#f41919;
-                            opacity:1" />
             </div>
         </div>
     </div>
@@ -165,3 +254,231 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+<script src="~/lib/apexcharts/dist/apexcharts.min.js"></script>
+<script>
+    var appCount = @Html.Raw(Json.Serialize(appCount));
+    var appMonths = @Html.Raw(Json.Serialize(appMonths));
+
+    var regCount = @Html.Raw(Json.Serialize(regCount));
+    var regMonths = @Html.Raw(Json.Serialize(regMonths));
+
+    // =====================================
+    // Profit
+    // =====================================
+
+    var chart = {
+        series: [
+            { name: "Appointments this month:", data: appCount },
+            { name: "Registers this month:", data: regCount }
+        ],
+
+
+        chart: {
+            type: "bar",
+            height: 345,
+            offsetX: -15,
+            toolbar: { show: true },
+            foreColor: "#adb0bb",
+            fontFamily: 'inherit',
+            sparkline: { enabled: false },
+        },
+
+
+        colors: ["#5D87FF", "#49BEFF"],
+
+
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: "35%",
+                borderRadius: [6],
+                borderRadiusApplication: 'end',
+                borderRadiusWhenStacked: 'all'
+            },
+        },
+        markers: { size: 0 },
+
+        dataLabels: {
+            enabled: false,
+        },
+
+
+        legend: {
+            show: false,
+        },
+
+
+        grid: {
+            borderColor: "rgba(0,0,0,0.1)",
+            strokeDashArray: 3,
+            xaxis: {
+                lines: {
+                    show: false,
+                },
+            },
+        },
+
+        xaxis: {
+            type: "category",
+            categories: appMonths,
+            labels: {
+                style: { cssClass: "grey--text lighten-2--text fill-color" },
+            },
+        },
+
+
+        yaxis: {
+            show: true,
+            min: 0,
+            max: (Math.max(...appCount)) * (1.15),
+            tickAmount: 4,
+            labels: {
+                style: {
+                    cssClass: "grey--text lighten-2--text fill-color",
+                },
+            },
+        },
+        stroke: {
+            show: true,
+            width: 3,
+            lineCap: "butt",
+            colors: ["transparent"],
+        },
+
+
+        tooltip: { theme: "light" },
+
+        responsive: [
+            {
+                breakpoint: 600,
+                options: {
+                    plotOptions: {
+                        bar: {
+                            borderRadius: 3,
+                        }
+                    },
+                }
+            }
+        ]
+
+
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), chart);
+    chart.render();
+
+    // =====================================
+    // Breakup
+    // =====================================
+    var breakup = {
+        color: "#adb5bd",
+        series: [2, 11],
+        labels: ["2023", "2024"],
+        chart: {
+            width: 180,
+            type: "donut",
+            fontFamily: "Plus Jakarta Sans', sans-serif",
+            foreColor: "#adb0bb",
+        },
+        plotOptions: {
+            pie: {
+                startAngle: 0,
+                endAngle: 360,
+                donut: {
+                    size: '75%',
+                },
+            },
+        },
+        stroke: {
+            show: false,
+        },
+
+        dataLabels: {
+            enabled: false,
+        },
+
+        legend: {
+            show: false,
+        },
+        colors: ["#F9F9FD", "#5D87FF"],
+
+        responsive: [
+            {
+                breakpoint: 991,
+                options: {
+                    chart: {
+                        width: 150,
+                    },
+                },
+            },
+        ],
+        tooltip: {
+            theme: "dark",
+            fillSeriesColor: false,
+        },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#breakup"), breakup);
+    chart.render();
+
+    // =====================================
+    // Earning
+    // =====================================
+    var earning = {
+        chart: {
+            id: "sparkline3",
+            type: "area",
+            height: 60,
+            sparkline: {
+                enabled: true,
+            },
+            group: "sparklines",
+            fontFamily: "Plus Jakarta Sans', sans-serif",
+            foreColor: "#adb0bb",
+        },
+        series: [
+            {
+                name: "Earnings",
+                color: "#49BEFF",
+                data: [25, 66, 20, 40, 12, 58, 20],
+            },
+        ],
+        stroke: {
+            curve: "smooth",
+            width: 2,
+        },
+        fill: {
+            colors: ["#f3feff"],
+            type: "solid",
+            opacity: 0.05,
+        },
+
+        markers: {
+            size: 0,
+        },
+        tooltip: {
+            theme: "dark",
+            fixed: {
+                enabled: true,
+                position: "right",
+            },
+            x: {
+                show: false,
+            },
+        },
+    };
+    new ApexCharts(document.querySelector("#earning"), earning).render();
+</script>
+<style>
+    .card-img-absolute {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+    }
+</style>

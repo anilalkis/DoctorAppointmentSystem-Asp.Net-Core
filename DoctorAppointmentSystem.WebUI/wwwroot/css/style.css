@@ -92,4 +92,7 @@
     background: transparent;
 }
 
+.dash-info {
+    background: linear-gradient(to right, #ffbf96, #fe7096) !important;
+}
 

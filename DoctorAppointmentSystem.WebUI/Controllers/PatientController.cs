@@ -114,6 +114,7 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
             appointment.DoctorId = doctorId;
             appointment.IsApproved = State.Waiting;
             appointment.Note = " ";
+            appointment.CreatedDate = DateTime.Now;
 
             _emailSender.Execute("anilalkis86@gmail.com", "Appointment Information", $"Dear {patient.FullName},\n\nYour appointment request has been received. Detailed information is added below.\n\n Appointment Date: {appointment.DateTime.ToShortTimeString()} \n\n Appointment Time: {appointment.DateTime.ToLongDateString()}\n\nDoctor Name: {doctor.FullName}\n\nAppointment Status: Waiting\n\nWe wish you a good day.\n\nMedisen");
             _appointmentDal.Create(appointment);

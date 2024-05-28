@@ -11,8 +11,9 @@ namespace DoctorAppointmentSystem.Data.Abstract
     {
         List<Appointment> GetAppointmentsWithDoctorId(int id);
         List<Appointment> GetAppointmentsWithPatientId(int id);
-        Appointment GetAppointmentById(int id); 
-
-
+        Appointment GetAppointmentById(int id);
+        List<MonthlyAppointmentCount> GetMonthlyAppointmentCounts();
+        int GetAppointmentsCountThisYear();
+        int GetAppointmentsCountLastYear();
     }
 }

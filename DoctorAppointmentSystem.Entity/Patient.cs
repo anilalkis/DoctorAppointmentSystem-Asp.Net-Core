@@ -18,6 +18,21 @@ namespace DoctorAppointmentSystem.Entity
         public string? Gender { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }
+        public DateTime Created { get; set; }
         public List<Appointment> Appointments { get; set; }
     }
+
+    public class MonthlyPatientCount
+    {
+        public int Year { get; set; }
+        public int Month { get; set; }
+        public int Count { get; set; }
+    }
+
+    public class YearlyPatientCount
+    {
+        public int ThisYear { get; set; }
+        public int LastYear { get; set; }
+    }
+
 }

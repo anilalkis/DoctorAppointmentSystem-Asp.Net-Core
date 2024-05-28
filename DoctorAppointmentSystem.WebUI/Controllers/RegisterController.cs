@@ -45,7 +45,8 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
                     {
                         FullName=p.FullName,
                         Email=p.Email,
-                        Phone=p.Phone
+                        Phone=p.Phone,
+                        Created = DateTime.Now,
                     });
                     return RedirectToAction("Index", "Login");
                 }

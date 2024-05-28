@@ -34,12 +34,29 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
 
         public IActionResult Index()
         {
-            return View(new AdminDashboardViewModel()
+            var model = new AdminDashboardViewModel()
             {
                 doctors = _doctorDal.GetAll(),
                 patients = _patientDal.GetAll(),
                 appointments = _appointmentDal.GetAll(),
-            }); 
+                monthlyAppointmentCounts = _appointmentDal.GetMonthlyAppointmentCounts(),
+                monthlyPatientCounts = _patientDal.GetMonthlyPatientCounts(),
+                yearlyAppointmentCount = new YearlyAppointmentCount 
+                { 
+                    ThisYear = _appointmentDal.GetAppointmentsCountThisYear(),
+                    LastYear = _appointmentDal.GetAppointmentsCountLastYear()
+                },
+                yearlyPatientCount = new YearlyPatientCount
+                {
+                    ThisYear = _patientDal.GetPatientCountThisYear(),
+                    LastYear = _patientDal.GetPatientCountLastYear()
+                }
+
+            };
+
+            Console.WriteLine(model.yearlyAppointmentCount.LastYear);
+
+            return View(model); 
         }
 
         public IActionResult DoctorList()
