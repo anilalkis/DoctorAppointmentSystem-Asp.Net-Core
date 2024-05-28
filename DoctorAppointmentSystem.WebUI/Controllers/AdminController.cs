@@ -41,8 +41,8 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
                 appointments = _appointmentDal.GetAll(),
                 monthlyAppointmentCounts = _appointmentDal.GetMonthlyAppointmentCounts(),
                 monthlyPatientCounts = _patientDal.GetMonthlyPatientCounts(),
-                yearlyAppointmentCount = new YearlyAppointmentCount 
-                { 
+                yearlyAppointmentCount = new YearlyAppointmentCount
+                {
                     ThisYear = _appointmentDal.GetAppointmentsCountThisYear(),
                     LastYear = _appointmentDal.GetAppointmentsCountLastYear()
                 },
@@ -50,7 +50,8 @@ namespace DoctorAppointmentSystem.WebUI.Controllers
                 {
                     ThisYear = _patientDal.GetPatientCountThisYear(),
                     LastYear = _patientDal.GetPatientCountLastYear()
-                }
+                },
+                dayOffs = _dayOffDal.GetAll().Where(i => i.StartDate > DateTime.Now).Count()
 
             };
 

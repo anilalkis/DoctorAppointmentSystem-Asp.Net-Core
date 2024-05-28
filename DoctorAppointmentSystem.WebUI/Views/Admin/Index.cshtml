@@ -124,52 +124,55 @@
 
 <div class="row">
     <div class="col-md-4">
-        <div class="card" style="background:linear-gradient(to right, #ffefd2, #f4bc56 99%) !important">
-            <div class="card-body ">
-                <img src="/images/dashboard/circle.png" class="card-img-absolute" alt="circle-image" />
-                <h5 class="card-title fw-semibold mb-4">Doctors</h5>
-                <div class="row align-items-center mb-4">
-                    <div class="col-8">
-                        <h1>@Model.doctors.Count</h1>
-                    </div>
-                    <div class="col-4">
-                       
+        <a asp-controller="Admin" asp-action="DoctorList">
+            <div class="card" style="background:linear-gradient(to right, #ffefd2, #f4bc56 99%) !important">
+                <div class="card-body ">
+                    <img src="/images/dashboard/circle.png" class="card-img-absolute" alt="circle-image" />
+                    <h5 class="card-title fw-semibold mb-4">Doctors</h5>
+                    <div class="row align-items-center mb-4">
+                        <div class="col-8">
+                            <h1>@Model.doctors.Count</h1>
+                        </div>
+                        <div class="col-4">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
     <div class="col-md-4">
-        <div class="card" style="background: linear-gradient(to right, #dfe7ff, #678cfb 99%) !important">
-            <div class="card-body">
-                <img src="/images/dashboard/circle.png" class="card-img-absolute" alt="circle-image" />
-                <h5 class="card-title fw-semibold mb-4">Totlal Patients</h5>
-                <div class="row align-items-center mb-4">
-                    <div class="col-8">
-                        <h1>@Model.patients.Count</h1>
-                    </div>
-                    <div class="col-4">
-                      
+        <a asp-controller="Admin" asp-action="PatientList">
+            <div class="card" style="background: linear-gradient(to right, #dfe7ff, #678cfb 99%) !important">
+                <div class="card-body">
+                    <img src="/images/dashboard/circle.png" class="card-img-absolute" alt="circle-image" />
+                    <h5 class="card-title fw-semibold mb-4">Totlal Patients</h5>
+                    <div class="row align-items-center mb-4">
+                        <div class="col-8">
+                            <h1>@Model.patients.Count</h1>
+                        </div>
+                        <div class="col-4">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
     <div class="col-md-4">
-        <div class="card" style="background: linear-gradient(to right, #d0f8f1, #47ccb5 99%) !important">
-            <div class="card-body">
-                <img src="/images/dashboard/circle.png" class="card-img-absolute" alt="circle-image" />
-                <h5 class="card-title fw-semibold mb-4">Appointments</h5>
-                <div class="row align-items-center mb-4">
-                    <div class="col-8">
-                        <h1>@Model.appointments.Count</h1>
-                    </div>
-                    <div class="col-4">
-                      
+        <a asp-controller="Admin" asp-action="LeaveRequests">
+            <div class="card" style="background: linear-gradient(to right, #d0f8f1, #47ccb5 99%) !important">
+                <div class="card-body">
+                    <img src="/images/dashboard/circle.png" class="card-img-absolute" alt="circle-image" />
+                    <h5 class="card-title fw-semibold mb-4">Requests</h5>
+                    <div class="row align-items-center mb-4">
+                        <div class="col-8">
+                            <h1>@Model.dayOffs</h1>
+                        </div>
+                        <div class="col-4">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 </div>
 

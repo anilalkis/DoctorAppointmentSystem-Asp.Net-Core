@@ -11,6 +11,7 @@ namespace DoctorAppointmentSystem.WebUI.Models
         public YearlyAppointmentCount yearlyAppointmentCount { get; set; }
         public List<MonthlyPatientCount> monthlyPatientCounts { get; set; }
         public YearlyPatientCount yearlyPatientCount { get; set; }
+        public int dayOffs { get; set; }
 
     }
 }
